@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TMenuInfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TMenuInfo" >
+    <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="menu_name" property="menuname" jdbcType="VARCHAR" />
+    <result column="mother_id" property="motherId" jdbcType="INTEGER" />
+    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="is_leaf" property="isLeaf" jdbcType="CHAR" />
+    <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
+    <result column="memu_memo_info" property="memuMemoInfo" jdbcType="VARCHAR" />
+    <result column="menu_create_time" property="menuCreateTime" jdbcType="DATE" />
+    <result column="memu_stop_flag" property="memuStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menu_id, menu_name, mother_id, menu_url, is_leaf, menu_icon, memu_memo_info, menu_create_time, 
+    menu_stop_flag
+  </sql>
+  <select id="selectListTMenuInfo" resultMap="BaseResultMap">
+   select menu_id, menu_name, mother_id, menu_url, is_leaf, menu_icon
+    from t_menu_info where menu_stop_flag='0' order by menu_id asc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_menu_info
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_menu_info
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="TMenuInfo" >
+    insert into t_menu_info (menu_id, menu_name, mother_id, 
+      menu_url, is_leaf, menu_icon, 
+      memu_memo_info, menu_create_time, memo_stop_flag
+      )
+    values (#{menuId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, #{motherId,jdbcType=INTEGER}, 
+      #{menuUrl,jdbcType=VARCHAR}, #{isLeaf,jdbcType=CHAR}, #{menuIcon,jdbcType=VARCHAR}, 
+      #{memuMemoInfo,jdbcType=VARCHAR}, #{menuCreateTime,jdbcType=DATE}, #{memoStopFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="TMenuInfo" >
+    insert into t_menu_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="motherId != null" >
+        mother_id,
+      </if>
+      <if test="menuUrl != null" >
+        menu_url,
+      </if>
+      <if test="isLeaf != null" >
+        is_leaf,
+      </if>
+      <if test="menuIcon != null" >
+        menu_icon,
+      </if>
+      <if test="memuMemoInfo != null" >
+        memu_memo_info,
+      </if>
+      <if test="menuCreateTime != null" >
+        menu_create_time,
+      </if>
+      <if test="memoStopFlag != null" >
+        memo_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="motherId != null" >
+        #{motherId,jdbcType=INTEGER},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null" >
+        #{isLeaf,jdbcType=CHAR},
+      </if>
+      <if test="menuIcon != null" >
+        #{menuIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="memuMemoInfo != null" >
+        #{memuMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCreateTime != null" >
+        #{menuCreateTime,jdbcType=DATE},
+      </if>
+      <if test="memoStopFlag != null" >
+        #{memoStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TMenuInfo" >
+    update t_menu_info
+    <set >
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="motherId != null" >
+        mother_id = #{motherId,jdbcType=INTEGER},
+      </if>
+      <if test="menuUrl != null" >
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null" >
+        is_leaf = #{isLeaf,jdbcType=CHAR},
+      </if>
+      <if test="menuIcon != null" >
+        menu_icon = #{menuIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="memuMemoInfo != null" >
+        memu_memo_info = #{memuMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCreateTime != null" >
+        menu_create_time = #{menuCreateTime,jdbcType=DATE},
+      </if>
+      <if test="memoStopFlag != null" >
+        memo_stop_flag = #{memoStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TMenuInfo" >
+    update t_menu_info
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      mother_id = #{motherId,jdbcType=INTEGER},
+      menu_url = #{menuUrl,jdbcType=VARCHAR},
+      is_leaf = #{isLeaf,jdbcType=CHAR},
+      menu_icon = #{menuIcon,jdbcType=VARCHAR},
+      memu_memo_info = #{memuMemoInfo,jdbcType=VARCHAR},
+      menu_create_time = #{menuCreateTime,jdbcType=DATE},
+      memo_stop_flag = #{memoStopFlag,jdbcType=CHAR}
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+</mapper>

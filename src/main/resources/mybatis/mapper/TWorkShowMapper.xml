@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TWorkShowfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TWorkShow" >
+    <id column="work_id" property="workId" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="co_name" property="coName" jdbcType="VARCHAR" />
+    <result column="work_start" property="workStart" jdbcType="DATE" />
+    <result column="work_end" property="workEnd" jdbcType="DATE" />
+    <result column="work_depart" property="workDepart" jdbcType="VARCHAR" />
+    <result column="work_content" property="workContent" jdbcType="VARCHAR" />
+    <result column="work_kpi" property="workKpi" jdbcType="VARCHAR" />
+    <result column="work_memo_info" property="workMemoInfo" jdbcType="VARCHAR" />
+    <result column="work_create_time" property="workCreateTime" jdbcType="TIMESTAMP" />
+    <result column="work_stop_flag" property="workStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    work_id, u_id, co_name, work_start, work_end, work_depart, work_content, work_kpi, 
+    work_memo_info, work_create_time, work_stop_flag
+  </sql>
+  <insert id="insertTWorkShow" parameterType="TWorkShow" >
+    insert into t_work_show (work_id, u_id, co_name, 
+      work_start, work_end, work_depart, 
+      work_content, work_kpi, work_memo_info, 
+      work_create_time, work_stop_flag)
+    values (#{workId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{coName,jdbcType=VARCHAR}, 
+      #{workStart,jdbcType=DATE}, #{workEnd,jdbcType=DATE}, #{workDepart,jdbcType=VARCHAR}, 
+      #{workContent,jdbcType=VARCHAR}, #{workKpi,jdbcType=VARCHAR}, #{workMemoInfo,jdbcType=VARCHAR}, 
+      #{workCreateTime,jdbcType=TIMESTAMP}, #{workStopFlag,jdbcType=CHAR})
+  </insert>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_show
+    where work_id = #{workId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_work_show
+    where work_id = #{workId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="TWorkShow" >
+    insert into t_work_show
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="workId != null" >
+        work_id,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="coName != null" >
+        co_name,
+      </if>
+      <if test="workStart != null" >
+        work_start,
+      </if>
+      <if test="workEnd != null" >
+        work_end,
+      </if>
+      <if test="workDepart != null" >
+        work_depart,
+      </if>
+      <if test="workContent != null" >
+        work_content,
+      </if>
+      <if test="workKpi != null" >
+        work_kpi,
+      </if>
+      <if test="workMemoInfo != null" >
+        work_memo_info,
+      </if>
+      <if test="workCreateTime != null" >
+        work_create_time,
+      </if>
+      <if test="workStopFlag != null" >
+        work_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="workId != null" >
+        #{workId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="coName != null" >
+        #{coName,jdbcType=VARCHAR},
+      </if>
+      <if test="workStart != null" >
+        #{workStart,jdbcType=DATE},
+      </if>
+      <if test="workEnd != null" >
+        #{workEnd,jdbcType=DATE},
+      </if>
+      <if test="workDepart != null" >
+        #{workDepart,jdbcType=VARCHAR},
+      </if>
+      <if test="workContent != null" >
+        #{workContent,jdbcType=VARCHAR},
+      </if>
+      <if test="workKpi != null" >
+        #{workKpi,jdbcType=VARCHAR},
+      </if>
+      <if test="workMemoInfo != null" >
+        #{workMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="workCreateTime != null" >
+        #{workCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workStopFlag != null" >
+        #{workStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TWorkShow" >
+    update t_work_show
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="coName != null" >
+        co_name = #{coName,jdbcType=VARCHAR},
+      </if>
+      <if test="workStart != null" >
+        work_start = #{workStart,jdbcType=DATE},
+      </if>
+      <if test="workEnd != null" >
+        work_end = #{workEnd,jdbcType=DATE},
+      </if>
+      <if test="workDepart != null" >
+        work_depart = #{workDepart,jdbcType=VARCHAR},
+      </if>
+      <if test="workContent != null" >
+        work_content = #{workContent,jdbcType=VARCHAR},
+      </if>
+      <if test="workKpi != null" >
+        work_kpi = #{workKpi,jdbcType=VARCHAR},
+      </if>
+      <if test="workMemoInfo != null" >
+        work_memo_info = #{workMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="workCreateTime != null" >
+        work_create_time = #{workCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workStopFlag != null" >
+        work_stop_flag = #{workStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where work_id = #{workId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TWorkShow" >
+    update t_work_show
+    set u_id = #{uId,jdbcType=INTEGER},
+      co_name = #{coName,jdbcType=VARCHAR},
+      work_start = #{workStart,jdbcType=DATE},
+      work_end = #{workEnd,jdbcType=DATE},
+      work_depart = #{workDepart,jdbcType=VARCHAR},
+      work_content = #{workContent,jdbcType=VARCHAR},
+      work_kpi = #{workKpi,jdbcType=VARCHAR},
+      work_memo_info = #{workMemoInfo,jdbcType=VARCHAR},
+      work_create_time = #{workCreateTime,jdbcType=TIMESTAMP},
+      work_stop_flag = #{workStopFlag,jdbcType=CHAR}
+    where work_id = #{workId,jdbcType=INTEGER}
+  </update>
+</mapper>

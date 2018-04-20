@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TAreaInfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TAreaInfo" >
+    <id column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="area_province_id" property="areaProvinceId" jdbcType="INTEGER" />
+    <result column="area_city_id" property="areaCityId" jdbcType="INTEGER" />
+    <result column="area_show_order" property="areaShowOrder" jdbcType="INTEGER" />
+    <result column="area_memo_info" property="areaMemoInfo" jdbcType="VARCHAR" />
+    <result column="area_create_time" property="areaCreateTime" jdbcType="DATE" />
+    <result column="area_stop_flag" property="areaStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    area_id, area_code, area_name, area_province_id, area_city_id, area_show_order, area_memo_info, 
+    area_create_time, area_stop_flag
+  </sql>
+  <select id="searchAreaNameById" resultType="java.util.Map">
+  	
+select t1.area_name province,t2.area_name city from t_area_info t1,t_area_info t2 where t2.area_code=#{areaCode,jdbcType=VARCHAR} 
+
+and t1.area_id=(select min(area_id)-1 from t_area_info where area_province_id=(select area_province_id from t_area_info where area_code=#{areaCode,jdbcType=VARCHAR}))
+  </select>
+  <select id="selectTAreaList" resultMap="BaseResultMap" parameterType="string">
+  	select area_code,area_name,area_province_id from t_area_info
+  		where 1=1 
+  		<if test="_parameter == null" >  
+        	and area_province_id = '0'
+        </if>  
+  		<if test="_parameter != null" >  
+        	and area_province_id = ( select area_province_id from t_area_info where area_id=((select area_id from t_area_info where area_code=#{_parameter,jdbcType=VARCHAR})+1))
+ and area_city_id='0'
+        </if>  
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_area_info
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_area_info
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="TAreaInfo" >
+    insert into t_area_info (area_id, area_code, area_name, 
+      area_province_id, area_city_id, area_show_order, 
+      area_memo_info, area_create_time, area_stop_flag
+      )
+    values (#{areaId,jdbcType=INTEGER}, #{areaCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
+      #{areaProvinceId,jdbcType=INTEGER}, #{areaCityId,jdbcType=INTEGER}, #{areaShowOrder,jdbcType=INTEGER}, 
+      #{areaMemoInfo,jdbcType=VARCHAR}, #{areaCreateTime,jdbcType=DATE}, #{areaStopFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="TAreaInfo" >
+    insert into t_area_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="areaName != null" >
+        area_name,
+      </if>
+      <if test="areaProvinceId != null" >
+        area_province_id,
+      </if>
+      <if test="areaCityId != null" >
+        area_city_id,
+      </if>
+      <if test="areaShowOrder != null" >
+        area_show_order,
+      </if>
+      <if test="areaMemoInfo != null" >
+        area_memo_info,
+      </if>
+      <if test="areaCreateTime != null" >
+        area_create_time,
+      </if>
+      <if test="areaStopFlag != null" >
+        area_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="areaId != null" >
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaProvinceId != null" >
+        #{areaProvinceId,jdbcType=INTEGER},
+      </if>
+      <if test="areaCityId != null" >
+        #{areaCityId,jdbcType=INTEGER},
+      </if>
+      <if test="areaShowOrder != null" >
+        #{areaShowOrder,jdbcType=INTEGER},
+      </if>
+      <if test="areaMemoInfo != null" >
+        #{areaMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCreateTime != null" >
+        #{areaCreateTime,jdbcType=DATE},
+      </if>
+      <if test="areaStopFlag != null" >
+        #{areaStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TAreaInfo" >
+    update t_area_info
+    <set >
+      <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaProvinceId != null" >
+        area_province_id = #{areaProvinceId,jdbcType=INTEGER},
+      </if>
+      <if test="areaCityId != null" >
+        area_city_id = #{areaCityId,jdbcType=INTEGER},
+      </if>
+      <if test="areaShowOrder != null" >
+        area_show_order = #{areaShowOrder,jdbcType=INTEGER},
+      </if>
+      <if test="areaMemoInfo != null" >
+        area_memo_info = #{areaMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCreateTime != null" >
+        area_create_time = #{areaCreateTime,jdbcType=DATE},
+      </if>
+      <if test="areaStopFlag != null" >
+        area_stop_flag = #{areaStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TAreaInfo" >
+    update t_area_info
+    set area_code = #{areaCode,jdbcType=VARCHAR},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      area_province_id = #{areaProvinceId,jdbcType=INTEGER},
+      area_city_id = #{areaCityId,jdbcType=INTEGER},
+      area_show_order = #{areaShowOrder,jdbcType=INTEGER},
+      area_memo_info = #{areaMemoInfo,jdbcType=VARCHAR},
+      area_create_time = #{areaCreateTime,jdbcType=DATE},
+      area_stop_flag = #{areaStopFlag,jdbcType=CHAR}
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </update>
+</mapper>

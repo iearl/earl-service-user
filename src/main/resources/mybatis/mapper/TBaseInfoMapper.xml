@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TBaseInfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TBaseInfo" >
+    <id column="bu_id" property="buId" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="bu_name" property="buName" jdbcType="VARCHAR" />
+    <result column="bu_pic_path" property="buPicPath" jdbcType="VARCHAR" />
+    <result column="bu_birthday" property="buBirthday" jdbcType="DATE" />
+    <result column="bu_sex" property="buSex" jdbcType="CHAR" />
+    <result column="bu_national" property="buNational" jdbcType="VARCHAR" />
+    <result column="bu_native" property="buNative" jdbcType="VARCHAR" />
+    <result column="bu_detail_addr" property="buDetailAddr" jdbcType="VARCHAR" />
+    <result column="bu_memo" property="buMemo" jdbcType="VARCHAR" />
+    <result column="bu_create_time" property="buCreateTime" jdbcType="DATE" />
+    <result column="bu_stop_flag" property="buStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bu_id, u_id, bu_name, bu_pic_path, bu_birthday, bu_sex, bu_national, bu_native, bu_detail_addr,bu_memo, 
+    bu_create_time, bu_stop_flag
+  </sql>
+  <select id="selectByuId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_base_info
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_base_info
+    where bu_id = #{buId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertTBaseUser" parameterType="TBaseInfo" >
+    insert into t_base_info (bu_id, u_id, bu_name, 
+      bu_pic_path, bu_birthday, bu_sex, 
+      bu_national, bu_native, bu_memo, bu_detail_addr,
+      bu_create_time, bu_stop_flag)
+    values (#{buId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{buName,jdbcType=VARCHAR}, 
+      #{buPicPath,jdbcType=VARCHAR}, #{buBirthday,jdbcType=DATE}, #{buSex,jdbcType=CHAR}, 
+      #{buNational,jdbcType=VARCHAR}, #{buNative,jdbcType=VARCHAR}, #{buMemo,jdbcType=VARCHAR}, 
+      #{buDetailAddr,jdbcType=VARCHAR},#{buCreateTime,jdbcType=DATE}, #{buStopFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="TBaseInfo" >
+    insert into t_base_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="buId != null" >
+        bu_id,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="buName != null" >
+        bu_name,
+      </if>
+      <if test="buPicPath != null" >
+        bu_pic_path,
+      </if>
+      <if test="buBirthday != null" >
+        bu_birthday,
+      </if>
+      <if test="buSex != null" >
+        bu_sex,
+      </if>
+      <if test="buNational != null" >
+        bu_national,
+      </if>
+      <if test="buNative != null" >
+        bu_native,
+      </if>
+      <if test="buMemo != null" >
+        bu_memo,
+      </if>
+      <if test="buCreateTime != null" >
+        bu_create_time,
+      </if>
+      <if test="buStopFlag != null" >
+        bu_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="buId != null" >
+        #{buId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="buName != null" >
+        #{buName,jdbcType=VARCHAR},
+      </if>
+      <if test="buPicPath != null" >
+        #{buPicPath,jdbcType=VARCHAR},
+      </if>
+      <if test="buBirthday != null" >
+        #{buBirthday,jdbcType=DATE},
+      </if>
+      <if test="buSex != null" >
+        #{buSex,jdbcType=CHAR},
+      </if>
+      <if test="buNational != null" >
+        #{buNational,jdbcType=VARCHAR},
+      </if>
+      <if test="buNative != null" >
+        #{buNative,jdbcType=VARCHAR},
+      </if>
+      <if test="buMemo != null" >
+        #{buMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="buCreateTime != null" >
+        #{buCreateTime,jdbcType=DATE},
+      </if>
+      <if test="buStopFlag != null" >
+        #{buStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TBaseInfo" >
+    update t_base_info
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="buName != null" >
+        bu_name = #{buName,jdbcType=VARCHAR},
+      </if>
+      <if test="buPicPath != null" >
+        bu_pic_path = #{buPicPath,jdbcType=VARCHAR},
+      </if>
+      <if test="buBirthday != null" >
+        bu_birthday = #{buBirthday,jdbcType=DATE},
+      </if>
+      <if test="buSex != null" >
+        bu_sex = #{buSex,jdbcType=CHAR},
+      </if>
+      <if test="buNational != null" >
+        bu_national = #{buNational,jdbcType=VARCHAR},
+      </if>
+      <if test="buNative != null" >
+        bu_native = #{buNative,jdbcType=VARCHAR},
+      </if>
+      <if test="buMemo != null" >
+        bu_memo = #{buMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="buCreateTime != null" >
+        bu_create_time = #{buCreateTime,jdbcType=DATE},
+      </if>
+      <if test="buStopFlag != null" >
+        bu_stop_flag = #{buStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where bu_id = #{buId,jdbcType=INTEGER}
+  </update>
+  <update id="updateBaseInfoByUId" parameterType="TBaseInfo" >
+    update t_base_info
+    set u_id = #{uId,jdbcType=INTEGER},
+      bu_name = #{buName,jdbcType=VARCHAR},
+      bu_pic_path = #{buPicPath,jdbcType=VARCHAR},
+      bu_birthday = #{buBirthday,jdbcType=DATE},
+      bu_sex = #{buSex,jdbcType=CHAR},
+      bu_national = #{buNational,jdbcType=VARCHAR},
+      bu_native = #{buNative,jdbcType=VARCHAR},
+      bu_memo = #{buMemo,jdbcType=VARCHAR},
+      bu_create_time = #{buCreateTime,jdbcType=DATE},
+      bu_stop_flag = #{buStopFlag,jdbcType=CHAR}
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+</mapper>

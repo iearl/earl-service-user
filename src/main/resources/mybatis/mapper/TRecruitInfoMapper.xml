@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TRecruitInfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TRecruitInfo" >
+    <id column="rec_id" property="recId" jdbcType="INTEGER" />
+    <result column="co_id" property="coId" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="job_code" property="jobCode" jdbcType="VARCHAR" />
+    <result column="rec_name" property="recName" jdbcType="VARCHAR" />
+    <result column="rec_positon" property="recPositon" jdbcType="VARCHAR" />
+    <result column="rec_per_bom" property="recPerBom" jdbcType="CHAR" />
+    <result column="rec_per_top" property="recPerTop" jdbcType="CHAR" />
+    <result column="rec_exper" property="recExper" jdbcType="CHAR" />
+    <result column="rec_type" property="recType" jdbcType="CHAR" />
+    <result column="rec_salary_bom" property="recSalaryBom" jdbcType="CHAR" />
+    <result column="rec_salary_top" property="recSalaryTop" jdbcType="CHAR" />
+    <result column="rec_addr" property="recAddr" jdbcType="VARCHAR" />
+    <result column="rec_degree" property="recDegree" jdbcType="CHAR" />
+    <result column="rec_pluses" property="recPluses" jdbcType="VARCHAR" />
+    <result column="rec_request" property="recRequest" jdbcType="VARCHAR" />
+    <result column="rec_desc" property="recDesc" jdbcType="VARCHAR" />
+    <result column="rec_acc_email" property="recAccEmail" jdbcType="VARCHAR" />
+    <result column="rec_memo_info" property="recMemoInfo" jdbcType="VARCHAR" />
+    <result column="rec_create_time" property="recCreateTime" jdbcType="VARCHAR" />
+    <result column="rec_stop_flag" property="recStopFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rec_id, co_id, u_id, job_code, rec_name, rec_positon, rec_per_bom, rec_per_top, 
+    rec_exper, rec_type, rec_salary_bom, rec_salary_top, rec_addr, rec_degree, rec_pluses, 
+    rec_request, rec_desc, rec_acc_email, rec_memo_info, DATE_FORMAT(rec_create_time,'%Y-%m-%d %h:%m:%s') AS rec_create_time, rec_stop_flag
+  </sql>
+  <select id="selectTRecruitInfoByMap" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_recruit_info
+    where u_id = #{uId,jdbcType=INTEGER}
+        <if test="_parameter.containsKey('startRowNum') and _parameter.containsKey('endRowNum')">  
+        <if test="startRowNum!= null and endRowNum!= null">
+	    		limit  #{startRowNum,jdbcType=INTEGER}, #{endRowNum,jdbcType=INTEGER}
+    	</if>
+    </if> 
+  </select>
+    <select id="selectTRecruitCountByMap" resultType="java.lang.Long"  >
+    select count(1)
+    	from t_recruit_info
+    where u_id = #{uId,jdbcType=INTEGER}
+     
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_recruit_info
+    where rec_id = #{recId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertTRecruitInfo" parameterType="TRecruitInfo" >
+    insert into t_recruit_info (rec_id, co_id, u_id, 
+      job_code, rec_name, rec_positon, 
+      rec_per_bom, rec_per_top, rec_exper, 
+      rec_type, rec_salary_bom, rec_salary_top, 
+      rec_addr, rec_degree, rec_pluses, 
+      rec_request, rec_desc, rec_acc_email, 
+      rec_memo_info, rec_create_time, rec_stop_flag
+      )
+    values (#{recId,jdbcType=INTEGER}, #{coId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, 
+      #{jobCode,jdbcType=VARCHAR}, #{recName,jdbcType=VARCHAR}, #{recPositon,jdbcType=VARCHAR}, 
+      #{recPerBom,jdbcType=CHAR}, #{recPerTop,jdbcType=CHAR}, #{recExper,jdbcType=CHAR}, 
+      #{recType,jdbcType=CHAR}, #{recSalaryBom,jdbcType=CHAR}, #{recSalaryTop,jdbcType=CHAR}, 
+      #{recAddr,jdbcType=VARCHAR}, #{recDegree,jdbcType=CHAR}, #{recPluses,jdbcType=VARCHAR}, 
+      #{recRequest,jdbcType=VARCHAR}, #{recDesc,jdbcType=VARCHAR}, #{recAccEmail,jdbcType=VARCHAR}, 
+      #{recMemoInfo,jdbcType=VARCHAR}, #{recCreateTime,jdbcType=DATE}, #{recStopFlag,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="TRecruitInfo" >
+    update t_recruit_info
+    set co_id = #{coId,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=INTEGER},
+      job_code = #{jobCode,jdbcType=VARCHAR},
+      rec_name = #{recName,jdbcType=VARCHAR},
+      rec_positon = #{recPositon,jdbcType=VARCHAR},
+      rec_per_bom = #{recPerBom,jdbcType=CHAR},
+      rec_per_top = #{recPerTop,jdbcType=CHAR},
+      rec_exper = #{recExper,jdbcType=CHAR},
+      rec_type = #{recType,jdbcType=CHAR},
+      rec_salary_bom = #{recSalaryBom,jdbcType=CHAR},
+      rec_salary_top = #{recSalaryTop,jdbcType=CHAR},
+      rec_addr = #{recAddr,jdbcType=VARCHAR},
+      rec_degree = #{recDegree,jdbcType=CHAR},
+      rec_pluses = #{recPluses,jdbcType=VARCHAR},
+      rec_request = #{recRequest,jdbcType=VARCHAR},
+      rec_desc = #{recDesc,jdbcType=VARCHAR},
+      rec_acc_email = #{recAccEmail,jdbcType=VARCHAR},
+      rec_memo_info = #{recMemoInfo,jdbcType=VARCHAR},
+      rec_create_time = #{recCreateTime,jdbcType=DATE},
+      rec_stop_flag = #{recStopFlag,jdbcType=VARCHAR}
+    where rec_id = #{recId,jdbcType=INTEGER}
+  </update>
+</mapper>

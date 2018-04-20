@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TCompanyInfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TCompanyInfo" >
+    <id column="co_id" property="coId" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="co_name" property="coName" jdbcType="VARCHAR" />
+    <result column="co_simp_name" property="coSimpName" jdbcType="VARCHAR" />
+    <result column="co_url" property="coUrl" jdbcType="VARCHAR" />
+    <result column="co_logo_path" property="coLogoPath" jdbcType="VARCHAR" />
+    <result column="co_city" property="coCity" jdbcType="VARCHAR" />
+    <result column="co_domain" property="coDomain" jdbcType="VARCHAR" />
+    <result column="co_size" property="coSize" jdbcType="VARCHAR" />
+    <result column="co_stage" property="coStage" jdbcType="VARCHAR" />
+    <result column="co_addr" property="coAddr" jdbcType="VARCHAR" />
+    <result column="co_introduce" property="coIntroduce" jdbcType="VARCHAR" />
+    <result column="co_memo_info" property="coMemoInfo" jdbcType="VARCHAR" />
+    <result column="co_create_time" property="coCreateTime" jdbcType="TIMESTAMP" />
+    <result column="co_stop_falg" property="coStopFalg" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    co_id, u_id, co_name, co_simp_name, co_url, co_logo_path, co_city, co_domain, co_size, 
+    co_stage, co_addr, co_introduce, co_memo_info, co_create_time, co_stop_falg
+  </sql>
+  <select id="selectTComInfoByUId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_info
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_info
+    where co_id = #{coId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_company_info
+    where co_id = #{coId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertTCompanyInfo" parameterType="TCompanyInfo" >
+    insert into t_company_info (co_id, u_id, co_name, 
+      co_simp_name, co_url, co_logo_path, 
+      co_city, co_domain, co_size, 
+      co_stage, co_addr, co_introduce, 
+      co_memo_info, co_create_time, co_stop_falg
+      )
+    values (#{coId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{coName,jdbcType=VARCHAR}, 
+      #{coSimpName,jdbcType=VARCHAR}, #{coUrl,jdbcType=VARCHAR}, #{coLogoPath,jdbcType=VARCHAR}, 
+      #{coCity,jdbcType=VARCHAR}, #{coDomain,jdbcType=VARCHAR}, #{coSize,jdbcType=VARCHAR}, 
+      #{coStage,jdbcType=VARCHAR}, #{coAddr,jdbcType=VARCHAR}, #{coIntroduce,jdbcType=VARCHAR}, 
+      #{coMemoInfo,jdbcType=VARCHAR}, #{coCreateTime,jdbcType=TIMESTAMP}, #{coStopFalg,jdbcType=CHAR}
+      )
+  </insert>
+  <update id="updateCoInfoByUid" parameterType="TCompanyInfo" >
+    update t_company_info
+    set 
+      co_name = #{coName,jdbcType=VARCHAR},
+      co_simp_name = #{coSimpName,jdbcType=VARCHAR},
+      co_url = #{coUrl,jdbcType=VARCHAR},
+      co_logo_path = #{coLogoPath,jdbcType=VARCHAR},
+      co_city = #{coCity,jdbcType=VARCHAR},
+      co_domain = #{coDomain,jdbcType=VARCHAR},
+      co_size = #{coSize,jdbcType=VARCHAR},
+      co_stage = #{coStage,jdbcType=VARCHAR},
+      co_addr = #{coAddr,jdbcType=VARCHAR},
+      co_introduce = #{coIntroduce,jdbcType=VARCHAR},
+      co_memo_info = #{coMemoInfo,jdbcType=VARCHAR},
+      co_create_time = #{coCreateTime,jdbcType=TIMESTAMP},
+      co_stop_falg = #{coStopFalg,jdbcType=CHAR}
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+  <insert id="insertSelective" parameterType="TCompanyInfo" >
+    insert into t_company_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="coId != null" >
+        co_id,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="coName != null" >
+        co_name,
+      </if>
+      <if test="coSimpName != null" >
+        co_simp_name,
+      </if>
+      <if test="coUrl != null" >
+        co_url,
+      </if>
+      <if test="coLogoPath != null" >
+        co_logo_path,
+      </if>
+      <if test="coCity != null" >
+        co_city,
+      </if>
+      <if test="coDomain != null" >
+        co_domain,
+      </if>
+      <if test="coSize != null" >
+        co_size,
+      </if>
+      <if test="coStage != null" >
+        co_stage,
+      </if>
+      <if test="coAddr != null" >
+        co_addr,
+      </if>
+      <if test="coIntroduce != null" >
+        co_introduce,
+      </if>
+      <if test="coMemoInfo != null" >
+        co_memo_info,
+      </if>
+      <if test="coCreateTime != null" >
+        co_create_time,
+      </if>
+      <if test="coStopFalg != null" >
+        co_stop_falg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="coId != null" >
+        #{coId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="coName != null" >
+        #{coName,jdbcType=VARCHAR},
+      </if>
+      <if test="coSimpName != null" >
+        #{coSimpName,jdbcType=VARCHAR},
+      </if>
+      <if test="coUrl != null" >
+        #{coUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="coLogoPath != null" >
+        #{coLogoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="coCity != null" >
+        #{coCity,jdbcType=VARCHAR},
+      </if>
+      <if test="coDomain != null" >
+        #{coDomain,jdbcType=VARCHAR},
+      </if>
+      <if test="coSize != null" >
+        #{coSize,jdbcType=VARCHAR},
+      </if>
+      <if test="coStage != null" >
+        #{coStage,jdbcType=VARCHAR},
+      </if>
+      <if test="coAddr != null" >
+        #{coAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="coIntroduce != null" >
+        #{coIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="coMemoInfo != null" >
+        #{coMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="coCreateTime != null" >
+        #{coCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coStopFalg != null" >
+        #{coStopFalg,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TCompanyInfo" >
+    update t_company_info
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="coName != null" >
+        co_name = #{coName,jdbcType=VARCHAR},
+      </if>
+      <if test="coSimpName != null" >
+        co_simp_name = #{coSimpName,jdbcType=VARCHAR},
+      </if>
+      <if test="coUrl != null" >
+        co_url = #{coUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="coLogoPath != null" >
+        co_logo_path = #{coLogoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="coCity != null" >
+        co_city = #{coCity,jdbcType=VARCHAR},
+      </if>
+      <if test="coDomain != null" >
+        co_domain = #{coDomain,jdbcType=VARCHAR},
+      </if>
+      <if test="coSize != null" >
+        co_size = #{coSize,jdbcType=VARCHAR},
+      </if>
+      <if test="coStage != null" >
+        co_stage = #{coStage,jdbcType=VARCHAR},
+      </if>
+      <if test="coAddr != null" >
+        co_addr = #{coAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="coIntroduce != null" >
+        co_introduce = #{coIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="coMemoInfo != null" >
+        co_memo_info = #{coMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="coCreateTime != null" >
+        co_create_time = #{coCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coStopFalg != null" >
+        co_stop_falg = #{coStopFalg,jdbcType=CHAR},
+      </if>
+    </set>
+    where co_id = #{coId,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

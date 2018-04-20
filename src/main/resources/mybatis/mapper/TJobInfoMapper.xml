@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TJobInfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TJobInfo" >
+    <id column="job_id" property="jobId" jdbcType="INTEGER" />
+    <result column="job_type" property="jobType" jdbcType="CHAR" />
+    <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+    <result column="mother_id" property="motherId" jdbcType="INTEGER" />
+    <result column="job_level" property="jobLevel" jdbcType="CHAR" />
+    <result column="job_memo" property="jobMemo" jdbcType="VARCHAR" />
+    <result column="job_create_time" property="jobCreateTime" jdbcType="DATE" />
+    <result column="job_stop_flag" property="jobStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    job_id, job_type, job_name, mother_id, job_level, job_memo, job_create_time, job_stop_flag
+  </sql>
+  <select id="searchJobNameById" resultType="java.util.Map">
+  	select t1.job_name jobName1,t2.job_name jobName2 from t_job_info t1,t_job_info t2 
+  		where t1.job_id=t2.mother_id and t2.job_id=#{jobId,jdbcType=VARCHAR}
+  </select>
+	<!--联动查询行业领域 -->
+	<select id="selectTJobList" resultMap="BaseResultMap" parameterType="string">
+  	select job_id,job_name,mother_id from t_job_info
+  		where 1=1 
+  		<if test="_parameter == null" >  
+        	and mother_id = '0'
+        </if>  
+  		<if test="_parameter != null" >  
+  			 and mother_id=#{_parameter,jdbcType=VARCHAR}
+        </if>  
+  </select>
+  
+  <select id="selectJobByMap" parameterType="java.util.Map" resultMap="BaseResultMap"  >
+    select 
+    	job_id, job_type, job_name, mother_id, job_level,job_stop_flag
+    from t_job_info
+    where job_stop_flag ='0' 
+       <if test="_parameter.containsKey('jobId')">  
+        <if test="jobId!=null and jobId!=''">
+    	and job_id = #{jobId,jdbcType=INTEGER}
+    	</if>
+    </if> 
+    order by job_level asc,job_id asc
+    <if test="_parameter.containsKey('startRowNum') and _parameter.containsKey('endRowNum')">  
+        <if test="startRowNum!= null and endRowNum!= null">
+	    		limit  #{startRowNum,jdbcType=INTEGER}, #{endRowNum,jdbcType=INTEGER}
+    	</if>
+    </if>   
+   </select>
+    
+   <select id="getJobTotle" resultType="java.lang.Long" >
+  	select count(1) from t_job_info
+    	where job_stop_flag ='0'
+  </select>
+  
+  
+  
+<!-- 
+  <select id="listPageCount" resultType="java.lang.Long" >
+  	select count(1) from t_job_info
+    	where job_stop_flag ='0'
+  </select> -->
+
+
+  
+  <!-- <select id="listPage" resultMap="BaseResultMap">
+  	select 
+    	job_id, job_type, job_name, mother_id, job_level,job_stop_flag
+    from t_job_info
+    where job_stop_flag ='0'
+    <if test="_parameter.containsKey('jobId')">  
+        <if test="jobId!=null and jobId!=''">
+    	and job_id = #{jobId,jdbcType=INTEGER}
+    	</if>
+    </if> 
+    <if test="_parameter.containsKey('startRowNum') ">
+    	<if test=" _parameter.containsKey('endRowNum')">  
+        	<if test="startRowNum!=null and startRowNum!=''">
+	       		<if test="endRowNum!=null and endRowNum!=''">
+	    			limit  #{startRowNum,jdbcType=INTEGER}, #{endRowNum,jdbcType=INTEGER}
+	    		</if>
+    		</if>
+   		</if>
+    </if>   
+  </select>
+  
+  
+
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_job_info
+    where job_id = #{jobId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="TJobInfo" >
+    insert into t_job_info (job_id, job_type, job_name, 
+      mother_id, job_level, job_memo, 
+      job_create_time, job_stop_flag)
+    values (#{jobId,jdbcType=INTEGER}, #{jobType,jdbcType=CHAR}, #{jobName,jdbcType=VARCHAR}, 
+      #{motherId,jdbcType=INTEGER}, #{jobLevel,jdbcType=CHAR}, #{jobMemo,jdbcType=VARCHAR}, 
+      #{jobCreateTime,jdbcType=DATE}, #{jobStopFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="TJobInfo" >
+    insert into t_job_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jobId != null" >
+        job_id,
+      </if>
+      <if test="jobType != null" >
+        job_type,
+      </if>
+      <if test="jobName != null" >
+        job_name,
+      </if>
+      <if test="motherId != null" >
+        mother_id,
+      </if>
+      <if test="jobLevel != null" >
+        job_level,
+      </if>
+      <if test="jobMemo != null" >
+        job_memo,
+      </if>
+      <if test="jobCreateTime != null" >
+        job_create_time,
+      </if>
+      <if test="jobStopFlag != null" >
+        job_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jobId != null" >
+        #{jobId,jdbcType=INTEGER},
+      </if>
+      <if test="jobType != null" >
+        #{jobType,jdbcType=CHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="motherId != null" >
+        #{motherId,jdbcType=INTEGER},
+      </if>
+      <if test="jobLevel != null" >
+        #{jobLevel,jdbcType=CHAR},
+      </if>
+      <if test="jobMemo != null" >
+        #{jobMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCreateTime != null" >
+        #{jobCreateTime,jdbcType=DATE},
+      </if>
+      <if test="jobStopFlag != null" >
+        #{jobStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TJobInfo" >
+    update t_job_info
+    <set >
+      <if test="jobType != null" >
+        job_type = #{jobType,jdbcType=CHAR},
+      </if>
+      <if test="jobName != null" >
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="motherId != null" >
+        mother_id = #{motherId,jdbcType=INTEGER},
+      </if>
+      <if test="jobLevel != null" >
+        job_level = #{jobLevel,jdbcType=CHAR},
+      </if>
+      <if test="jobMemo != null" >
+        job_memo = #{jobMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCreateTime != null" >
+        job_create_time = #{jobCreateTime,jdbcType=DATE},
+      </if>
+      <if test="jobStopFlag != null" >
+        job_stop_flag = #{jobStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where job_id = #{jobId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TJobInfo" >
+    update t_job_info
+    set job_type = #{jobType,jdbcType=CHAR},
+      job_name = #{jobName,jdbcType=VARCHAR},
+      mother_id = #{motherId,jdbcType=INTEGER},
+      job_level = #{jobLevel,jdbcType=CHAR},
+      job_memo = #{jobMemo,jdbcType=VARCHAR},
+      job_create_time = #{jobCreateTime,jdbcType=DATE},
+      job_stop_flag = #{jobStopFlag,jdbcType=CHAR}
+    where job_id = #{jobId,jdbcType=INTEGER}
+  </update> -->
+</mapper>

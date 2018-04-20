@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.UserInfoDaoImpl">
+	<resultMap id="BaseResultMap" type="com.ants.facade.user.entity.UserInfo">
+		<id column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="passeord" property="passeord" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="CHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="mobile_no" property="mobileNo" jdbcType="INTEGER" />
+		<result column="birthday" property="birthday" jdbcType="DATE" />
+		<result column="statue" property="statue" jdbcType="INTEGER" />
+		<result column="last_login_time" property="lastLoginTime"
+			jdbcType="DATE" />
+		<result column="pwd_error_count" property="pwdErrorCount"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		user_id, username, nickname, passeord, sex, email, mobile_no, birthday,
+		statue, last_login_time,
+		pwd_error_count
+	</sql>
+	
+	<select id="listPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_info
+	</select>
+	<select id="listPageCount" parameterType="java.util.Map" resultType="long">
+		select
+		count(1)
+		from user_info
+	</select>
+	<select id="findByUserId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user_info
+		where username = #{userId,jdbcType=VARCHAR}
+	</select>
+	<select id="getTotal" parameterType="Map" resultType="Long">
+		select count(1) from user_info
+		<where>
+			<if test="username!=null and username!='' ">
+				and userName like #{username}
+			</if>
+		</where>
+	</select>
+
+</mapper>

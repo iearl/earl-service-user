@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TUserInfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TUserInfo" >
+    <id column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="u_name" property="uName" jdbcType="VARCHAR" />
+    <result column="u_pwd" property="uPwd" jdbcType="VARCHAR" />
+    <result column="u_type" property="uType" jdbcType="CHAR" />
+    <result column="u_phone_no" property="uPhoneNo" jdbcType="CHAR" />
+    <result column="u_email" property="uEmail" jdbcType="VARCHAR" />
+    <result column="u_question" property="uQuestion" jdbcType="VARCHAR" />
+    <result column="u_answer" property="uAnswer" jdbcType="VARCHAR" />
+    <result column="u_last_time" property="uLastTime" jdbcType="TIMESTAMP" />
+    <result column="u_err_count" property="uErrCount" jdbcType="INTEGER" />
+    <result column="u_statue" property="uStatue" jdbcType="CHAR" />
+    <result column="u_memo_info" property="uMemoInfo" jdbcType="VARCHAR" />
+    <result column="u_create_time" property="uCreateTime" jdbcType="TIMESTAMP" />
+    <result column="u_stop_flag" property="uStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    u_id, u_name, u_pwd, u_type, u_phone_no, u_email, u_question, u_answer, u_last_time, 
+    u_err_count, u_statue, u_memo_info, u_create_time, u_stop_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_info
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findUserByUserId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_info
+		where u_name = #{parameter,jdbcType=VARCHAR} or u_email=#{parameter,jdbcType=VARCHAR}  or u_phone_no=#{parameter,jdbcType=VARCHAR}
+	</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_info
+    where u_id = #{uId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="TUserInfo" >
+    insert into t_user_info (u_id, u_name, u_pwd, 
+      u_type, u_phone_no, u_email, 
+      u_question, u_answer, u_last_time, 
+      u_err_count, u_statue, u_memo_info, 
+      u_create_time, u_stop_flag)
+    values (#{uId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, #{uPwd,jdbcType=VARCHAR}, 
+      #{uType,jdbcType=CHAR}, #{uPhoneNo,jdbcType=CHAR}, #{uEmail,jdbcType=VARCHAR}, 
+      #{uQuestion,jdbcType=VARCHAR}, #{uAnswer,jdbcType=VARCHAR}, #{uLastTime,jdbcType=TIMESTAMP}, 
+      #{uErrCount,jdbcType=INTEGER}, #{uStatue,jdbcType=CHAR}, #{uMemoInfo,jdbcType=VARCHAR}, 
+      #{uCreateTime,jdbcType=TIMESTAMP}, #{uStopFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="TUserInfo" >
+    insert into t_user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="uName != null" >
+        u_name,
+      </if>
+      <if test="uPwd != null" >
+        u_pwd,
+      </if>
+      <if test="uType != null" >
+        u_type,
+      </if>
+      <if test="uPhoneNo != null" >
+        u_phone_no,
+      </if>
+      <if test="uEmail != null" >
+        u_email,
+      </if>
+      <if test="uQuestion != null" >
+        u_question,
+      </if>
+      <if test="uAnswer != null" >
+        u_answer,
+      </if>
+      <if test="uLastTime != null" >
+        u_last_time,
+      </if>
+      <if test="uErrCount != null" >
+        u_err_count,
+      </if>
+      <if test="uStatue != null" >
+        u_statue,
+      </if>
+      <if test="uMemoInfo != null" >
+        u_memo_info,
+      </if>
+      <if test="uCreateTime != null" >
+        u_create_time,
+      </if>
+      <if test="uStopFlag != null" >
+        u_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null" >
+        #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uPwd != null" >
+        #{uPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="uType != null" >
+        #{uType,jdbcType=CHAR},
+      </if>
+      <if test="uPhoneNo != null" >
+        #{uPhoneNo,jdbcType=CHAR},
+      </if>
+      <if test="uEmail != null" >
+        #{uEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="uQuestion != null" >
+        #{uQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="uAnswer != null" >
+        #{uAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="uLastTime != null" >
+        #{uLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uErrCount != null" >
+        #{uErrCount,jdbcType=INTEGER},
+      </if>
+      <if test="uStatue != null" >
+        #{uStatue,jdbcType=CHAR},
+      </if>
+      <if test="uMemoInfo != null" >
+        #{uMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="uCreateTime != null" >
+        #{uCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uStopFlag != null" >
+        #{uStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateUserInfo" parameterType="TUserInfo" >
+    update t_user_info
+    <set >
+      <if test="uName != null" >
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uPwd != null" >
+        u_pwd = #{uPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="uType != null" >
+        u_type = #{uType,jdbcType=CHAR},
+      </if>
+      <if test="uPhoneNo != null" >
+        u_phone_no = #{uPhoneNo,jdbcType=CHAR},
+      </if>
+      <if test="uEmail != null" >
+        u_email = #{uEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="uQuestion != null" >
+        u_question = #{uQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="uAnswer != null" >
+        u_answer = #{uAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="uLastTime != null" >
+        u_last_time = #{uLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uErrCount != null" >
+        u_err_count = #{uErrCount,jdbcType=INTEGER},
+      </if>
+      <if test="uStatue != null" >
+        u_statue = #{uStatue,jdbcType=CHAR},
+      </if>
+      <if test="uMemoInfo != null" >
+        u_memo_info = #{uMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="uCreateTime != null" >
+        u_create_time = #{uCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uStopFlag != null" >
+        u_stop_flag = #{uStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TUserInfo" >
+    update t_user_info
+    set u_name = #{uName,jdbcType=VARCHAR},
+      u_pwd = #{uPwd,jdbcType=VARCHAR},
+      u_type = #{uType,jdbcType=CHAR},
+      u_phone_no = #{uPhoneNo,jdbcType=CHAR},
+      u_email = #{uEmail,jdbcType=VARCHAR},
+      u_question = #{uQuestion,jdbcType=VARCHAR},
+      u_answer = #{uAnswer,jdbcType=VARCHAR},
+      u_last_time = #{uLastTime,jdbcType=TIMESTAMP},
+      u_err_count = #{uErrCount,jdbcType=INTEGER},
+      u_statue = #{uStatue,jdbcType=CHAR},
+      u_memo_info = #{uMemoInfo,jdbcType=VARCHAR},
+      u_create_time = #{uCreateTime,jdbcType=TIMESTAMP},
+      u_stop_flag = #{uStopFlag,jdbcType=CHAR}
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+</mapper>

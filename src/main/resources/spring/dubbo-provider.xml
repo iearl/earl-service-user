@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+            http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://code.alibabatech.com/schema/dubbo  
+            http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="gw-service-user" />
+
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" file="${catalina.home}/dubbo-registry/dubbo-registry.properties"/>
+
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20880" />
+		
+	<!-- 用户服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.UserInfoFacade" ref="userInfoFacade" timeout="1200000"/>
+	<!-- 用户服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TUserInfoFacade" ref="tUserInfoFacade" timeout="1200000"/>
+	<!-- 邮箱验证服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.EmailCheckFacade" ref="emailCheckFacade" timeout="1200000"/>
+	<!-- 短信验证服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.PhoneCheckFacade" ref="phoneCheckFacade" timeout="1200000"/>
+	<!-- 职位分类服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TJobInfoFacede" ref="tJobInfoFacade" timeout="1200000"/>
+	<!-- 上传下载excel -->
+	<dubbo:service interface="com.ants.facade.user.service.ExcelFacade" ref="excelFacade" timeout="1200000"/>
+	<!-- 菜单信息服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TMenuInfoFacade" ref="tMenuInfoFacede" timeout="1200000"/>
+	<!-- 用户基础信息服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TBaseInfoFacade" ref="tBaseInfoFacade" timeout="1200000"/>
+	<!-- 文件上传下载接口 -->
+<!-- 	<dubbo:service interface="com.ants.facade.user.service.FileUpDownLoadFacade" ref="fileUpDownLoadFacade" timeout="1200000"/> -->
+	<!-- 需要指定hessian协议,否则会在上面设置的协议中随机调用,就会一会成功一会失败 -->  
+<!--     <dubbo:service protocol="hessian" interface="com.ants.facade.user.service.FileUpDownLoadFacade" ref="fileUpDownLoadFacade" />   -->
+	<!-- 区域信息服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TAreaInfoFacade" ref="tAreaInfoFacade" timeout="1200000"/>
+	<!-- 公司信息服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TCompanyInfoFacade" ref="tCompanyInfoFacade" timeout="1200000"/>
+	<!--职位信息管理接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TRecruitInfoFacade" ref="tRecruitInfoFacade" timeout="1200000"/>
+	<!--工作经验信息服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TWorkShowFacade" ref="tWorkShowFacade" timeout="1200000"/>
+
+</beans>  
