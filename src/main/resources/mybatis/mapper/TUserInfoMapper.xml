@@ -21,11 +21,51 @@
     u_id, u_name, u_pwd, u_type, u_phone_no, u_email, u_question, u_answer, u_last_time, 
     u_err_count, u_statue, u_memo_info, u_create_time, u_stop_flag
   </sql>
+  
+  <!-- 管理员用户信息管理，查找求职会员和公司会员  start-->
+  <select id="selectManageUInfoByMapList" resultType="java.util.Map">
+  	select base.bu_name,user.u_type,user.u_statue,user.u_email,user.u_phone_no,DATE_FORMAT(user.u_last_time,'%Y-%m-%d %h:%m:%s') u_last_time from t_base_info base,t_user_info user where base.u_id = user.u_id
+  </select>
+  <select id="selectManageUInfoByMapCount" resultType="java.lang.Long">
+  	select count(1) from t_base_info base,t_user_info user where base.u_id = user.u_id
+  </select>
+  <!-- 管理员用户信息管理，查找求职会员和公司会员  end-->
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_user_info
     where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  <select id="searchSevenDayTUserInfoCount" resultType="java.util.Map">
+  	select DATE_FORMAT(a.click_date,'%Y-%m-%d') date,ifnull(b.count,0) as count
+from (
+    SELECT curdate() as click_date
+    union all
+    SELECT date_sub(curdate(), interval 1 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 2 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 3 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 4 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 5 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 6 day) as click_date
+) a left join (
+  select date(u_create_time) as datetime, count(1) as count
+  from t_user_info 
+  <where>
+  	<if test="uType==0">
+  		and u_type='0'
+  	</if>
+  	<if test="uType==1">
+  		and u_type='1'
+  	</if>
+  </where>
+  group by date(u_create_time)
+) b on a.click_date = b.datetime order by date desc
   </select>
   
   <select id="findUserByUserId" resultMap="BaseResultMap"
@@ -34,6 +74,14 @@
 		<include refid="Base_Column_List" />
 		from t_user_info
 		where u_name = #{parameter,jdbcType=VARCHAR} or u_email=#{parameter,jdbcType=VARCHAR}  or u_phone_no=#{parameter,jdbcType=VARCHAR}
+	</select>
+	
+	 <select id="findUserByUserIdUPhoneNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_info
+		where  u_phone_no=#{parameter,jdbcType=VARCHAR}
 	</select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_user_info
@@ -142,6 +190,9 @@
       </if>
     </trim>
   </insert>
+  <update id="resetChangePwd" parameterType="TUserInfo" >
+  update t_user_info  set u_pwd = #{uPwd,jdbcType=VARCHAR} where u_email =  #{uEmail,jdbcType=VARCHAR}
+  </update>
   <update id="updateUserInfo" parameterType="TUserInfo" >
     update t_user_info
     <set >

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ants.service.user.dao.impl.TAlyInfoDaoImpl">
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TAlyInfo">
+    <id column="aly_id" jdbcType="INTEGER" property="alyId" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="aly_political" jdbcType="VARCHAR" property="alyPolitical" />
+    <result column="aly_degree" jdbcType="VARCHAR" property="alyDegree" />
+    <result column="aly_shcool" jdbcType="VARCHAR" property="alyShcool" />
+    <result column="aly_profession" jdbcType="VARCHAR" property="alyProfession" />
+    <result column="aly_graduation" jdbcType="DATE" property="alyGraduation" />
+    <result column="aly_job_statue" jdbcType="VARCHAR" property="alyJobStatue" />
+    <result column="aly_salary_bom" jdbcType="VARCHAR" property="alySalaryBom" />
+    <result column="aly_salary_top" jdbcType="VARCHAR" property="alySalaryTop" />
+    <result column="aly_skill" jdbcType="VARCHAR" property="alySkill" />
+    <result column="aly_val" jdbcType="VARCHAR" property="alyVal" />
+    <result column="aly_memo_info" jdbcType="VARBINARY" property="alyMemoInfo" />
+    <result column="aly_create_time" jdbcType="TIMESTAMP" property="alyCreateTime" />
+    <result column="aly_stop_flag" jdbcType="CHAR" property="alyStopFlag" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    aly_id, u_id, aly_political, aly_degree, aly_shcool, aly_profession, aly_graduation, 
+    aly_job_statue, aly_salary_bom, aly_salary_top, aly_skill, aly_val, aly_create_time, 
+    aly_stop_flag
+  </sql>
+  <select id="selectManageAlyInfoByMapList" resultType="java.util.Map">
+	select base.bu_name,aly.aly_political,aly.aly_degree,aly.aly_shcool,DATE_FORMAT(aly_graduation,'%Y-%m-%d') aly_graduation,
+	aly.aly_job_statue,aly.aly_salary_bom,aly.aly_salary_top,
+	aly.aly_skill,aly.aly_val from t_base_info base,t_aly_info aly where base.u_id = aly.u_id   
+	</select>
+	<select id="selectManageAlyInfoByMapCount" resultType="java.lang.Long">
+	select count(1) from t_base_info base,t_aly_info aly where base.u_id = aly.u_id  
+	</select>
+   <insert id="insertTAlyInfo" parameterType="TAlyInfo">
+    insert into t_aly_info (aly_id, u_id, aly_political, 
+      aly_degree, aly_shcool, aly_profession, 
+      aly_graduation, aly_job_statue, aly_salary_bom, 
+      aly_salary_top, aly_skill, aly_val, 
+      aly_create_time, aly_stop_flag, aly_memo_info
+      )
+    values (#{alyId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{alyPolitical,jdbcType=VARCHAR}, 
+      #{alyDegree,jdbcType=VARCHAR}, #{alyShcool,jdbcType=VARCHAR}, #{alyProfession,jdbcType=VARCHAR}, 
+      #{alyGraduation,jdbcType=DATE}, #{alyJobStatue,jdbcType=VARCHAR}, #{alySalaryBom,jdbcType=VARCHAR}, 
+      #{alySalaryTop,jdbcType=VARCHAR}, #{alySkill,jdbcType=VARCHAR}, #{alyVal,jdbcType=VARCHAR}, 
+      #{alyCreateTime,jdbcType=TIMESTAMP}, #{alyStopFlag,jdbcType=CHAR}, #{alyMemoInfo,jdbcType=VARBINARY}
+      )
+  </insert>
+  <select id="searchSevenDayTAlyInfoCount" resultType="java.util.Map">
+  	select DATE_FORMAT(a.click_date,'%Y-%m-%d') date,ifnull(b.count,0) as count
+from (
+    SELECT curdate() as click_date
+    union all
+    SELECT date_sub(curdate(), interval 1 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 2 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 3 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 4 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 5 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 6 day) as click_date
+) a left join (
+  select date(aly_create_time) as datetime, count(1) as count
+  from t_aly_info 
+  group by date(aly_create_time)
+) b on a.click_date = b.datetime order by date desc
+  </select>
+   <update id="updateTAlyInfoByUId" parameterType="TAlyInfo">
+    update t_aly_info
+    <set>
+
+      <if test="alyPolitical != null">
+        aly_political = #{alyPolitical,jdbcType=VARCHAR},
+      </if>
+      <if test="alyDegree != null">
+        aly_degree = #{alyDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="alyShcool != null">
+        aly_shcool = #{alyShcool,jdbcType=VARCHAR},
+      </if>
+      <if test="alyProfession != null">
+        aly_profession = #{alyProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="alyGraduation != null">
+        aly_graduation = #{alyGraduation,jdbcType=DATE},
+      </if>
+      <if test="alyJobStatue != null">
+        aly_job_statue = #{alyJobStatue,jdbcType=VARCHAR},
+      </if>
+      <if test="alySalaryBom != null">
+        aly_salary_bom = #{alySalaryBom,jdbcType=VARCHAR},
+      </if>
+      <if test="alySalaryTop != null">
+        aly_salary_top = #{alySalaryTop,jdbcType=VARCHAR},
+      </if>
+      <if test="alySkill != null">
+        aly_skill = #{alySkill,jdbcType=VARCHAR},
+      </if>
+      <if test="alyVal != null">
+        aly_val = #{alyVal,jdbcType=VARCHAR},
+      </if>
+      <if test="alyCreateTime != null">
+        aly_create_time = #{alyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alyStopFlag != null">
+        aly_stop_flag = #{alyStopFlag,jdbcType=CHAR},
+      </if>
+      <if test="alyMemoInfo != null">
+        aly_memo_info = #{alyMemoInfo,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+  
+    <select id="selectTAlyInfoByUId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_aly_info
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  
+  <sql id="Blob_Column_List">
+    aly_memo_info
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_aly_info
+    where aly_id = #{alyId,jdbcType=INTEGER}
+  </delete>
+ 
+  <insert id="insertSelective" parameterType="TAlyInfo">
+    insert into t_aly_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="alyId != null">
+        aly_id,
+      </if>
+      <if test="uId != null">
+        u_id,
+      </if>
+      <if test="alyPolitical != null">
+        aly_political,
+      </if>
+      <if test="alyDegree != null">
+        aly_degree,
+      </if>
+      <if test="alyShcool != null">
+        aly_shcool,
+      </if>
+      <if test="alyProfession != null">
+        aly_profession,
+      </if>
+      <if test="alyGraduation != null">
+        aly_graduation,
+      </if>
+      <if test="alyJobStatue != null">
+        aly_job_statue,
+      </if>
+      <if test="alySalaryBom != null">
+        aly_salary_bom,
+      </if>
+      <if test="alySalaryTop != null">
+        aly_salary_top,
+      </if>
+      <if test="alySkill != null">
+        aly_skill,
+      </if>
+      <if test="alyVal != null">
+        aly_val,
+      </if>
+      <if test="alyCreateTime != null">
+        aly_create_time,
+      </if>
+      <if test="alyStopFlag != null">
+        aly_stop_flag,
+      </if>
+      <if test="alyMemoInfo != null">
+        aly_memo_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="alyId != null">
+        #{alyId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="alyPolitical != null">
+        #{alyPolitical,jdbcType=VARCHAR},
+      </if>
+      <if test="alyDegree != null">
+        #{alyDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="alyShcool != null">
+        #{alyShcool,jdbcType=VARCHAR},
+      </if>
+      <if test="alyProfession != null">
+        #{alyProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="alyGraduation != null">
+        #{alyGraduation,jdbcType=DATE},
+      </if>
+      <if test="alyJobStatue != null">
+        #{alyJobStatue,jdbcType=VARCHAR},
+      </if>
+      <if test="alySalaryBom != null">
+        #{alySalaryBom,jdbcType=VARCHAR},
+      </if>
+      <if test="alySalaryTop != null">
+        #{alySalaryTop,jdbcType=VARCHAR},
+      </if>
+      <if test="alySkill != null">
+        #{alySkill,jdbcType=VARCHAR},
+      </if>
+      <if test="alyVal != null">
+        #{alyVal,jdbcType=VARCHAR},
+      </if>
+      <if test="alyCreateTime != null">
+        #{alyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alyStopFlag != null">
+        #{alyStopFlag,jdbcType=CHAR},
+      </if>
+      <if test="alyMemoInfo != null">
+        #{alyMemoInfo,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+ 
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="TAlyInfo">
+    update t_aly_info
+    set u_id = #{uId,jdbcType=INTEGER},
+      aly_political = #{alyPolitical,jdbcType=VARCHAR},
+      aly_degree = #{alyDegree,jdbcType=VARCHAR},
+      aly_shcool = #{alyShcool,jdbcType=VARCHAR},
+      aly_profession = #{alyProfession,jdbcType=VARCHAR},
+      aly_graduation = #{alyGraduation,jdbcType=DATE},
+      aly_job_statue = #{alyJobStatue,jdbcType=VARCHAR},
+      aly_salary_bom = #{alySalaryBom,jdbcType=VARCHAR},
+      aly_salary_top = #{alySalaryTop,jdbcType=VARCHAR},
+      aly_skill = #{alySkill,jdbcType=VARCHAR},
+      aly_val = #{alyVal,jdbcType=VARCHAR},
+      aly_create_time = #{alyCreateTime,jdbcType=TIMESTAMP},
+      aly_stop_flag = #{alyStopFlag,jdbcType=CHAR},
+      aly_memo_info = #{alyMemoInfo,jdbcType=VARBINARY}
+    where aly_id = #{alyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TAlyInfo">
+    update t_aly_info
+    set u_id = #{uId,jdbcType=INTEGER},
+      aly_political = #{alyPolitical,jdbcType=VARCHAR},
+      aly_degree = #{alyDegree,jdbcType=VARCHAR},
+      aly_shcool = #{alyShcool,jdbcType=VARCHAR},
+      aly_profession = #{alyProfession,jdbcType=VARCHAR},
+      aly_graduation = #{alyGraduation,jdbcType=DATE},
+      aly_job_statue = #{alyJobStatue,jdbcType=VARCHAR},
+      aly_salary_bom = #{alySalaryBom,jdbcType=VARCHAR},
+      aly_salary_top = #{alySalaryTop,jdbcType=VARCHAR},
+      aly_skill = #{alySkill,jdbcType=VARCHAR},
+      aly_val = #{alyVal,jdbcType=VARCHAR},
+      aly_create_time = #{alyCreateTime,jdbcType=TIMESTAMP},
+      aly_stop_flag = #{alyStopFlag,jdbcType=CHAR}
+    where aly_id = #{alyId,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

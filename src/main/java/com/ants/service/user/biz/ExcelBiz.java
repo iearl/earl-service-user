@@ -30,10 +30,10 @@ import com.ants.service.user.dao.impl.TJobInfoDaoImpl;
 @Service("excelBiz")
 public class ExcelBiz {
 
-	@Autowired
+/*	@Autowired
 	private TJobInfoDaoImpl dao;
-	/*@Autowired
-	HttpServletResponse response;*/
+	@Autowired
+	HttpServletResponse response;
 	
 	public void exportExcel(String hql, String[] titles) {
 		List<TJobInfo> list = dao.selectByMap(new HashMap());
@@ -72,7 +72,7 @@ public class ExcelBiz {
 				cell.setCellValue(jobInfo.getJobName());
 			}
 		}
-/*		try {
+		try {
 			
 			response.setContentType("application/binary;charset=ISO8859_1"); 
 			ServletOutputStream outputStream = response.getOutputStream();  
@@ -83,8 +83,8 @@ public class ExcelBiz {
 			outputStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} */
+		} 
 
-	}
+	}*/
 
 }

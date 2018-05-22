@@ -23,17 +23,33 @@ public class TRecruitInfoFacadeImpl implements TRecruitInfoFacade {
 	@Autowired
 	private TRecruitInfoBiz tRecruitInfoBiz;
 	
-//List<TRecruitInfo> selectByMap(Map<String, Integer> testMap);
-//    
-//    long getTotal(Map<String, Integer> testMap);
+	@Override
+	public List<TRecruitInfo> selectManageRecInfoByMapList(
+			Map<String, Object> map) {
+		return tRecruitInfoBiz.selectManageRecInfoByMapList(map);
+	}
+	@Override
+	public long selectManageAlyInfoByMapCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return tRecruitInfoBiz.selectManageAlyInfoByMapCount(map);
+	}
+	public List<Map<String, String>> searchSevenDayCount(Map<String, String> map){
+		return tRecruitInfoBiz.searchSevenDayCount(map);
+	}
+
+	
+	@Override
+	public long updateTRecruitInfoByRecId(TRecruitInfo record) {
+		return tRecruitInfoBiz.updateTRecruitInfoByRecId(record);
+	}
 
 	@Override
-	public List<TRecruitInfo> selectByMap(Map<String, Integer> map) {
+	public List<TRecruitInfo> selectByMap(Map<String, Object> map) {
 		return tRecruitInfoBiz.selectByMap(map);
 	}
 	
 	@Override
-	public long getTotal(Map<String, Integer> testMap) {
+	public long getTotal(Map<String, Object> testMap) {
 		return tRecruitInfoBiz.getTotal(testMap);
 	}
 
@@ -45,9 +61,9 @@ public class TRecruitInfoFacadeImpl implements TRecruitInfoFacade {
 	}
 
 	@Override
-	public int deleteByPrimaryKey(Integer recId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long deleteTRecruitInfoByMap(List<Map<String,Object>> list){
+		
+		return tRecruitInfoBiz.deleteTRecruitInfoByMap(list);
 	}
 
 	@Override
@@ -63,17 +79,8 @@ public class TRecruitInfoFacadeImpl implements TRecruitInfoFacade {
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(TRecruitInfo record) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int updateByPrimaryKey(TRecruitInfo record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
-
 }

@@ -19,18 +19,37 @@ import com.ants.service.user.dao.TRecruitInfoDao;
 @Repository("tRecruitInfoDao")
 public class TRecruitInfoDaoImpl extends BaseDaoImpl<TRecruitInfo> implements
 		TRecruitInfoDao {
+	@Override
+	public List<TRecruitInfo> selectManageRecInfoByMapList(
+			Map<String, Object> map) {
+		return super.getSqlSession().selectList("selectManageRecInfoByMapList",map );
+	}
+	@Override
+	public long selectManageAlyInfoByMapCount(Map<String, Object> map) {
+		return super.getSqlSession().selectOne("selectManageAlyInfoByMapCount", map);
+	}
+	public List<Map<String, String>> searchSevenDayCount(Map<String, String> map){
+		return super.getSqlSession().selectList("searchSevenDayTRecInfoCount", map);
+	}
+	public long updateTRecruitInfoByRecId(TRecruitInfo record) {
+		return super.getSqlSession().update("updateTRecruitInfoByRecId", record);
+	}
 	public long insert(TRecruitInfo record) {
-
 		return super.getSqlSession().insert("insertTRecruitInfo", record);
+	}
+	
+	public long deleteTRecruitInfoByMap(List<Map<String,Object>> list){
+		return super.getSqlSession().update("deleteTRecruitInfoByList", list);
 	}
 
 	@Override
-	public List<TRecruitInfo> selectByMap(Map<String, Integer> map) {
+	public List<TRecruitInfo> selectByMap(Map<String, Object> map) {
 		return super.getSqlSession().selectList("selectTRecruitInfoByMap", map);
 	}
 
 	@Override
-	public long getTotal(Map<String, Integer> testMap) {
+	public long getTotal(Map<String, Object> testMap) {
 		return super.getSqlSession().selectOne("selectTRecruitCountByMap", testMap);
 	}
+
 }

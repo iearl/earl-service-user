@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.facade.user.service.impl.TSubInfoFacadeImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TSubInfo" >
+    <id column="sub_id" property="subId" jdbcType="CHAR" />
+    <result column="sub_type" property="subType" jdbcType="INTEGER" />
+    <result column="sub_name" property="subName" jdbcType="VARCHAR" />
+    <result column="mother_id" property="motherId" jdbcType="CHAR" />
+    <result column="sub_level" property="subLevel" jdbcType="CHAR" />
+    <result column="sub_memo" property="subMemo" jdbcType="VARCHAR" />
+    <result column="sub_create_time" property="subCreateTime" jdbcType="VARCHAR" />
+    <result column="sub_stop_flag" property="subStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sub_id, sub_type, sub_name, mother_id, sub_level, sub_memo,  DATE_FORMAT(sub_create_time,'%Y-%m-%d %h:%m:%s') AS sub_create_time, sub_stop_flag
+  </sql>
+   <select id="selectTSubInfoList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sub_info
+    <where>
+    	<if test="subId!=null">
+    		sub_id = #{subId,jdbcType=INTEGER}
+    	</if>
+    </where>
+     <if test="_parameter.containsKey('startRowNum') and _parameter.containsKey('endRowNum')">  
+       <if test="startRowNum!= null and endRowNum!= null">
+    		limit  #{startRowNum,jdbcType=INTEGER}, #{endRowNum,jdbcType=INTEGER}
+   		</if>
+    </if> 
+  </select>
+    <select id="selectTSubInfoCount" resultType="java.lang.Long">
+    select 
+    count(1)
+    from t_sub_info
+    <where>
+    	<if test="subId!=null">
+    		sub_id = #{subId,jdbcType=INTEGER}
+    	</if>
+    </where>
+  </select>
+   <select id="selectTSubInfoByMap" resultType="java.util.Map">
+  	select sub_id,sub_name,mother_id from t_sub_info
+  		where 1=1 
+  		<if test="sub1 != null" >  
+        	and mother_id='0'
+        </if> 
+        <if test="sub2 != null" >  
+        	and mother_id=#{sub2,jdbcType=CHAR}
+        </if> 
+        <if test="sub3 != null" >  
+        	and mother_id=#{sub3,jdbcType=CHAR}
+        </if> 
+  </select>
+  <select id="selectSubNameBySubThree"  resultType="java.util.Map">
+  	select t1.sub_name sub1Name,t2.sub_name sub2Name,t3.sub_name sub3Name from t_sub_info t1,t_sub_info t2,t_sub_info t3 where 
+t3.sub_id=#{sub3,jdbcType=CHAR} and t2.sub_id=t3.mother_id and t1.sub_id=t2.mother_id
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sub_info
+    where sub_id = #{subId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_sub_info
+    where sub_id = #{subId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="TSubInfo" >
+    insert into t_sub_info (sub_id, sub_type, sub_name, 
+      mother_id, sub_level, sub_memo, 
+      sub_create_time, sub_stop_flag)
+    values (#{subId,jdbcType=CHAR}, #{subType,jdbcType=INTEGER}, #{subName,jdbcType=VARCHAR}, 
+      #{motherId,jdbcType=CHAR}, #{subLevel,jdbcType=CHAR}, #{subMemo,jdbcType=VARCHAR}, 
+      #{subCreateTime,jdbcType=TIMESTAMP}, #{subStopFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="TSubInfo" >
+    insert into t_sub_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="subId != null" >
+        sub_id,
+      </if>
+      <if test="subType != null" >
+        sub_type,
+      </if>
+      <if test="subName != null" >
+        sub_name,
+      </if>
+      <if test="motherId != null" >
+        mother_id,
+      </if>
+      <if test="subLevel != null" >
+        sub_level,
+      </if>
+      <if test="subMemo != null" >
+        sub_memo,
+      </if>
+      <if test="subCreateTime != null" >
+        sub_create_time,
+      </if>
+      <if test="subStopFlag != null" >
+        sub_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="subId != null" >
+        #{subId,jdbcType=CHAR},
+      </if>
+      <if test="subType != null" >
+        #{subType,jdbcType=INTEGER},
+      </if>
+      <if test="subName != null" >
+        #{subName,jdbcType=VARCHAR},
+      </if>
+      <if test="motherId != null" >
+        #{motherId,jdbcType=CHAR},
+      </if>
+      <if test="subLevel != null" >
+        #{subLevel,jdbcType=CHAR},
+      </if>
+      <if test="subMemo != null" >
+        #{subMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="subCreateTime != null" >
+        #{subCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subStopFlag != null" >
+        #{subStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TSubInfo" >
+    update t_sub_info
+    <set >
+      <if test="subType != null" >
+        sub_type = #{subType,jdbcType=INTEGER},
+      </if>
+      <if test="subName != null" >
+        sub_name = #{subName,jdbcType=VARCHAR},
+      </if>
+      <if test="motherId != null" >
+        mother_id = #{motherId,jdbcType=CHAR},
+      </if>
+      <if test="subLevel != null" >
+        sub_level = #{subLevel,jdbcType=CHAR},
+      </if>
+      <if test="subMemo != null" >
+        sub_memo = #{subMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="subCreateTime != null" >
+        sub_create_time = #{subCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subStopFlag != null" >
+        sub_stop_flag = #{subStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where sub_id = #{subId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TSubInfo" >
+    update t_sub_info
+    set sub_type = #{subType,jdbcType=INTEGER},
+      sub_name = #{subName,jdbcType=VARCHAR},
+      mother_id = #{motherId,jdbcType=CHAR},
+      sub_level = #{subLevel,jdbcType=CHAR},
+      sub_memo = #{subMemo,jdbcType=VARCHAR},
+      sub_create_time = #{subCreateTime,jdbcType=TIMESTAMP},
+      sub_stop_flag = #{subStopFlag,jdbcType=CHAR}
+    where sub_id = #{subId,jdbcType=CHAR}
+  </update>
+</mapper>

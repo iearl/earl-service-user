@@ -30,6 +30,9 @@ import com.ants.facade.user.entity.TAreaInfo;
  *    
  */
 public interface TAreaInfoDao {
+	
+	public List<TAreaInfo> selectTAreaInfoList(Map<String, Object> map);
+	public long selectTAreaInfoCount(Map<String,Object> map);
 	public List<TAreaInfo> selectTAreaList(String province);
 	
 	public List<Map<String,String>> searchAreaNameById(Map<String,String> mapCon);

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.dao.TFeedInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TFeedInfo" >
+    <id column="fd_id" property="fdId" jdbcType="INTEGER" />
+    <result column="fd_email" property="fdEmail" jdbcType="VARCHAR" />
+    <result column="fd_title" property="fdTitle" jdbcType="VARCHAR" />
+    <result column="fd_content" property="fdContent" jdbcType="VARCHAR" />
+    <result column="fd_create_time" property="fdCreateTime" jdbcType="VARCHAR" />
+    <result column="ad_title" property="adTitle" jdbcType="VARCHAR" />
+    <result column="ad_content" property="adContent" jdbcType="VARCHAR" />
+    <result column="ad_create_time" property="adCreateTime" jdbcType="VARCHAR" />
+    <result column="memo_info" property="memoInfo" jdbcType="VARCHAR" />
+    <result column="stop_flag" property="stopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fd_id, fd_email, fd_title, fd_content, fd_create_time, ad_title, ad_content, ad_create_time, 
+    memo_info, stop_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_feed_info
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </select>
+  <select id="selectTFeedInfoByMap" resultMap="BaseResultMap">
+  	select * from t_feed_info where stop_flag!='9'
+  	<if test="fdId!= null">
+  		and fd_id = #{fdId,jdbcType=INTEGER}
+  	</if>
+  </select>
+  
+    <select id="selectTFeedInfoCountByMap" resultType="java.lang.Long">
+  	select count(1) from t_feed_info where stop_flag!='9'
+  	<if test="fdId!= null">
+  		and fd_id = #{fdId,jdbcType=INTEGER}
+  	</if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_feed_info
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertTFeedInfo" parameterType="TFeedInfo" >
+    insert into t_feed_info (fd_id, fd_email, fd_title, 
+      fd_content, fd_create_time, ad_title, 
+      ad_content, ad_create_time, memo_info, 
+      stop_flag)
+    values (#{fdId,jdbcType=INTEGER}, #{fdEmail,jdbcType=VARCHAR}, #{fdTitle,jdbcType=VARCHAR}, 
+      #{fdContent,jdbcType=VARCHAR}, #{fdCreateTime,jdbcType=VARCHAR}, #{adTitle,jdbcType=VARCHAR}, 
+      #{adContent,jdbcType=VARCHAR}, #{adCreateTime,jdbcType=VARCHAR}, #{memoInfo,jdbcType=VARCHAR}, 
+      #{stopFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="TFeedInfo" >
+    insert into t_feed_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fdId != null" >
+        fd_id,
+      </if>
+      <if test="fdEmail != null" >
+        fd_email,
+      </if>
+      <if test="fdTitle != null" >
+        fd_title,
+      </if>
+      <if test="fdContent != null" >
+        fd_content,
+      </if>
+      <if test="fdCreateTime != null" >
+        fd_create_time,
+      </if>
+      <if test="adTitle != null" >
+        ad_title,
+      </if>
+      <if test="adContent != null" >
+        ad_content,
+      </if>
+      <if test="adCreateTime != null" >
+        ad_create_time,
+      </if>
+      <if test="memoInfo != null" >
+        memo_info,
+      </if>
+      <if test="stopFlag != null" >
+        stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fdId != null" >
+        #{fdId,jdbcType=INTEGER},
+      </if>
+      <if test="fdEmail != null" >
+        #{fdEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="fdTitle != null" >
+        #{fdTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fdContent != null" >
+        #{fdContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fdCreateTime != null" >
+        #{fdCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="adTitle != null" >
+        #{adTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="adContent != null" >
+        #{adContent,jdbcType=VARCHAR},
+      </if>
+      <if test="adCreateTime != null" >
+        #{adCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="memoInfo != null" >
+        #{memoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="stopFlag != null" >
+        #{stopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateTFeedInfoDao" parameterType="TFeedInfo" >
+    update t_feed_info
+    <set >
+      <if test="fdEmail != null" >
+        fd_email = #{fdEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="fdTitle != null" >
+        fd_title = #{fdTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fdContent != null" >
+        fd_content = #{fdContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fdCreateTime != null" >
+        fd_create_time = #{fdCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="adTitle != null" >
+        ad_title = #{adTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="adContent != null" >
+        ad_content = #{adContent,jdbcType=VARCHAR},
+      </if>
+      <if test="adCreateTime != null" >
+        ad_create_time = #{adCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="memoInfo != null" >
+        memo_info = #{memoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="stopFlag != null" >
+        stop_flag = #{stopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TFeedInfo" >
+    update t_feed_info
+    set fd_email = #{fdEmail,jdbcType=VARCHAR},
+      fd_title = #{fdTitle,jdbcType=VARCHAR},
+      fd_content = #{fdContent,jdbcType=VARCHAR},
+      fd_create_time = #{fdCreateTime,jdbcType=VARCHAR},
+      ad_title = #{adTitle,jdbcType=VARCHAR},
+      ad_content = #{adContent,jdbcType=VARCHAR},
+      ad_create_time = #{adCreateTime,jdbcType=VARCHAR},
+      memo_info = #{memoInfo,jdbcType=VARCHAR},
+      stop_flag = #{stopFlag,jdbcType=CHAR}
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -6,16 +6,25 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.ants.common.core.dao.BaseDaoImpl;
+import com.ants.facade.user.entity.TAreaInfo;
 import com.ants.facade.user.entity.TJobInfo;
 import com.ants.service.user.dao.TJobInfoDao;
 
 @Repository("tJobInfoDao")
 public class TJobInfoDaoImpl extends BaseDaoImpl<TJobInfo> implements
 		TJobInfoDao {
-	
+	// 查询所有职位分类信息
+	public List<TAreaInfo> selectTJobInfoList(Map<String, Object> map) {
+		return super.getSqlSession().selectList("selectTJobInfoList",map);
+	}
 
-	//根据职位号查询自身包含上级职位名
-	public List<Map<String,String>> searchJobNameById(Map<String,String> mapCon) {
+	public long selectTJobInfoCount(Map<String, Object> map) {
+		return super.getSqlSession().selectOne("selectTJobInfoCount",map);
+	}
+
+	// 根据职位号查询自身包含上级职位名
+	public List<Map<String, String>> searchJobNameById(
+			Map<String, String> mapCon) {
 		return super.getSqlSession().selectList("searchJobNameById", mapCon);
 	}
 
@@ -38,6 +47,5 @@ public class TJobInfoDaoImpl extends BaseDaoImpl<TJobInfo> implements
 	public Long getTotal(Map<String, Integer> map) {
 		return super.getSqlSession().selectOne("getJobTotle", map);
 	}
-
 
 }

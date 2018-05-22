@@ -1,5 +1,8 @@
 package com.ants.facade.user.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,19 @@ public class TCompanyInfoFacadeImpl implements TCompanyInfoFacade {
 
 	@Autowired
 	private TCompanyInfoBiz tCompanyInfoBiz;
+	public List<TCompanyInfo> selectManageCoInfoByMapList(
+			Map<String, Object> map) {
+		return tCompanyInfoBiz.selectManageCoInfoByMapList(map);
+	}
+
+	@Override
+	public long selectManageCoInfoByMapCount(Map<String, Object> map) {
+		return tCompanyInfoBiz.selectManageCoInfoByMapCount(map);
+	}
+	@Override
+	public TCompanyInfo selectTComInfoByUMap(Map<String, Object> map) {
+		return tCompanyInfoBiz.selectTComInfoByUMap(map);
+	}
 
 	@Override
 	public int updateByPrimaryKey(TCompanyInfo record) {

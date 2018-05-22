@@ -1,5 +1,8 @@
 package com.ants.facade.user.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +21,24 @@ import com.ants.service.user.biz.TWorkShowBiz;
 public class TWorkShowFacadeImpl implements TWorkShowFacade {
 	@Autowired
 	private TWorkShowBiz tWorkShowBiz;
+
 	@Override
 	public long insert(TWorkShow record) {
 		return tWorkShowBiz.insert(record);
+	}
+	@Override
+	public List<TWorkShow> selectManageWorkShowInfoByMapList(
+			Map<String, Object> map) {
+		return tWorkShowBiz.selectManageWorkShowInfoByMapList(map);
+	}
+	@Override
+	public long selectManageWorkShowInfoByMapCount(Map<String, Object> map) {
+		return tWorkShowBiz.selectManageWorkShowInfoByMapCount(map);
+	}
+	//根据uId查找工作经验
+	@Override
+	public List<Map<String,String>> selectTWorkShowListByUId(Integer uId) {
+		return tWorkShowBiz.selectTWorkShowListByUId(uId);
 	}
 
 	@Override

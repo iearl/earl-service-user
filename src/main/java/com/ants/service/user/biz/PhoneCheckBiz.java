@@ -25,7 +25,7 @@ import com.aliyuncs.profile.IClientProfile;
  */
 @Service("phoneCheckBiz")
 public class PhoneCheckBiz {
-	static final String signName = "51职聘";
+	static final String signName = "直聘宝";
 	static final String templateCode = "SMS_126362360";
 	
     static final String product = "Dysmsapi";

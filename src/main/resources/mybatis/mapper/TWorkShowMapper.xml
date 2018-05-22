@@ -18,6 +18,19 @@
     work_id, u_id, co_name, work_start, work_end, work_depart, work_content, work_kpi, 
     work_memo_info, work_create_time, work_stop_flag
   </sql>
+  
+   <select id="selectManageWorkShowInfoByMapList" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_show
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  <select id="selectManageWorkShowInfoByMapCount" resultType="java.lang.Long">
+    select 
+    count(1)
+    from t_work_show where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  
   <insert id="insertTWorkShow" parameterType="TWorkShow" >
     insert into t_work_show (work_id, u_id, co_name, 
       work_start, work_end, work_depart, 
@@ -28,12 +41,14 @@
       #{workContent,jdbcType=VARCHAR}, #{workKpi,jdbcType=VARCHAR}, #{workMemoInfo,jdbcType=VARCHAR}, 
       #{workCreateTime,jdbcType=TIMESTAMP}, #{workStopFlag,jdbcType=CHAR})
   </insert>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  
+  <select id="selectTWorkShowListByUId" resultType="java.util.Map" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_work_show
-    where work_id = #{workId,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_work_show
     where work_id = #{workId,jdbcType=INTEGER}

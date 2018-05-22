@@ -16,10 +16,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo> implements UserInfoDa
 	public UserInfo findByUserId(String userId) {
 		return super.getSqlSession().selectOne(getStatement("findByUserId"), userId);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.ants.service.user.dao.UserInfoDao#getTotal(java.util.Map)
-	 */
+	
 	@Override
 	public Long getTotal(Map<String, Object> map) {
 		return super.getSqlSession().selectOne(getStatement("getTotal"), map);

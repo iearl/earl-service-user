@@ -9,12 +9,12 @@
     <result column="area_city_id" property="areaCityId" jdbcType="INTEGER" />
     <result column="area_show_order" property="areaShowOrder" jdbcType="INTEGER" />
     <result column="area_memo_info" property="areaMemoInfo" jdbcType="VARCHAR" />
-    <result column="area_create_time" property="areaCreateTime" jdbcType="DATE" />
+    <result column="area_create_time" property="areaCreateTime" jdbcType="VARCHAR" />
     <result column="area_stop_flag" property="areaStopFlag" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     area_id, area_code, area_name, area_province_id, area_city_id, area_show_order, area_memo_info, 
-    area_create_time, area_stop_flag
+   DATE_FORMAT(area_create_time,'%Y-%m-%d %h:%m:%s') AS area_create_time, area_stop_flag
   </sql>
   <select id="searchAreaNameById" resultType="java.util.Map">
   	
@@ -34,11 +34,30 @@ and t1.area_id=(select min(area_id)-1 from t_area_info where area_province_id=(s
         </if>  
   </select>
   
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectTAreaInfoList" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_area_info
-    where area_id = #{areaId,jdbcType=INTEGER}
+    <where>
+    	<if test="areaId!=null">
+    		area_id = #{areaId,jdbcType=INTEGER}
+    	</if>
+    </where>
+     <if test="_parameter.containsKey('startRowNum') and _parameter.containsKey('endRowNum')">  
+       <if test="startRowNum!= null and endRowNum!= null">
+    		limit  #{startRowNum,jdbcType=INTEGER}, #{endRowNum,jdbcType=INTEGER}
+   		</if>
+    </if> 
+  </select>
+    <select id="selectTAreaInfoCount" resultType="java.lang.Long">
+    select 
+    count(1)
+    from t_area_info
+    <where>
+    	<if test="areaId!=null">
+    		area_id = #{areaId,jdbcType=INTEGER}
+    	</if>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_area_info

@@ -22,12 +22,38 @@
     co_id, u_id, co_name, co_simp_name, co_url, co_logo_path, co_city, co_domain, co_size, 
     co_stage, co_addr, co_introduce, co_memo_info, co_create_time, co_stop_falg
   </sql>
+  
+  <select id="selectManageCoInfoByMapList" resultType="java.util.Map">
+  	  select co_name,co_simp_name,co_url,co_size,co_stage,co_addr,co_introduce from t_company_info
+  </select>
+  <select id="selectManageCoInfoByMapCount" resultType="java.lang.Long">
+  	  select count(1) from t_company_info
+  </select>
+  
   <select id="selectTComInfoByUId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_company_info
     where u_id = #{uId,jdbcType=INTEGER}
   </select>
+  
+  <select id="selectTComInfoByMap" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_info
+    <where>
+    	<if test="sUId!=null">
+    		and u_id = #{sUId,jdbcType=INTEGER}
+    	</if>
+    	<if test="uId!=null">
+    		and u_id = #{uId,jdbcType=INTEGER}
+    	</if>
+    	<if test="coId!=null">
+    		and co_id = #{coId,jdbcType=INTEGER}
+    	</if>
+    </where>
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

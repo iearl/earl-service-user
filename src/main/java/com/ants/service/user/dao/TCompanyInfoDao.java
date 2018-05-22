@@ -17,6 +17,9 @@
 */  
 package com.ants.service.user.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.ants.facade.user.entity.TCompanyInfo;
 
 /**  
@@ -27,6 +30,11 @@ import com.ants.facade.user.entity.TCompanyInfo;
  *    
  */
 public interface TCompanyInfoDao {
+	public List<TCompanyInfo> selectManageCoInfoByMapList(
+			Map<String, Object> map);
+	public long selectManageCoInfoByMapCount(Map<String, Object> map);
+	
+	public TCompanyInfo selectTComInfoByUMap(Map<String, Object> map);
 	
 	public int updateByPrimaryKey(TCompanyInfo record);
 	public TCompanyInfo selectTComInfoByUId(Integer uId);

@@ -21,6 +21,13 @@ public class TAreaInfoBiz {
 
 	@Autowired
 	private TAreaInfoDao tAreaInfoDao;
+	
+	public List<TAreaInfo> selectTAreaInfoList(Map<String, Object> map){
+		return tAreaInfoDao.selectTAreaInfoList(map);
+	}
+	public long selectTAreaInfoCount(Map<String,Object> map){
+		return tAreaInfoDao.selectTAreaInfoCount(map);
+	}
 
 	public List<Map<String, String>> searchAreaNameById(
 			Map<String, String> mapCon) {

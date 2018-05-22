@@ -46,6 +46,16 @@
 		<typeAlias alias="TRecruitInfo" type="com.ants.facade.user.entity.TRecruitInfo" />
 		<!-- 工作经验别名 -->
 		<typeAlias alias="TWorkShow" type="com.ants.facade.user.entity.TWorkShow" />
+		<!-- 简历信息别名 -->
+		<typeAlias alias="TAlyInfo" type="com.ants.facade.user.entity.TAlyInfo" />
+		<!-- 科目信息别名 -->
+		<typeAlias alias="TSubInfo" type="com.ants.facade.user.entity.TSubInfo" />
+		<!-- 投递简历别名 -->
+		<typeAlias alias="TProgInfo" type="com.ants.facade.user.entity.TProgInfo" />
+		<!-- 系统操作日志 -->
+		<typeAlias alias="TArchivesLog" type="com.ants.facade.user.entity.TArchivesLog" />
+		<!-- 反馈信息 -->
+		<typeAlias alias="TFeedInfo" type="com.ants.facade.user.entity.TFeedInfo" />
 
 	</typeAliases>
 
@@ -67,6 +77,16 @@
 		<mapper resource="mybatis/mapper/TRecruitInfoMapper.xml" />
 		<!-- 工作经验mapper -->
 		<mapper resource="mybatis/mapper/TWorkShowMapper.xml" />
+		<!-- 简历信息mapper -->
+		<mapper resource="mybatis/mapper/TAlyInfoMapper.xml" />
+		<!-- 科目信息mapper -->
+		<mapper resource="mybatis/mapper/TSubInfoMapper.xml" />
+		<!-- 投递简历mapper -->
+		<mapper resource="mybatis/mapper/TProgInfoMapper.xml" />
+		<!-- 系统操作日志 -->
+		<mapper resource="mybatis/mapper/TArchivesLogMapper.xml" />
+		<!-- 反馈信息 -->
+		<mapper resource="mybatis/mapper/TFeedInfoMapper.xml" />
 
 	</mappers>
 

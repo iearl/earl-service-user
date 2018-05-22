@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ants.common.page.PageBean;
 import com.ants.common.page.PageParam;
+import com.ants.facade.user.entity.TAreaInfo;
 import com.ants.facade.user.entity.TJobInfo;
 import com.ants.facade.user.service.TJobInfoFacede;
 import com.ants.service.user.biz.TJobInfoBiz;
@@ -23,6 +24,15 @@ import com.ants.service.user.biz.TJobInfoBiz;
 public class TJobInfoFacadeImpl implements TJobInfoFacede {
 	@Autowired
 	private TJobInfoBiz tJobInfoBiz;
+	
+	// 查询所有职位分类信息
+	public List<TAreaInfo> selectTJobInfoList(Map<String, Object> map){
+		return tJobInfoBiz.selectTJobInfoList(map);
+	}
+
+	public long selectTJobInfoCount(Map<String, Object> map){
+		return tJobInfoBiz.selectTJobInfoCount(map);
+	}
 
 	@Override
 	public List<Map<String,String>> searchJobNameById(Map<String,String> mapCon) {

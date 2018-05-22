@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.service.user.dao.impl.TProgInfoDaoImpl" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TProgInfo" >
+    <id column="prog_id" property="progId" jdbcType="INTEGER" />
+    <result column="rec_id" property="recId" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="prog_statue" property="progStatue" jdbcType="VARCHAR" />
+    <result column="prop_memo" property="propMemo" jdbcType="VARCHAR" />
+    <result column="prog_create_time" property="progCreateTime" jdbcType="TIMESTAMP" />
+    <result column="prog_stop_flag" property="progStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    prog_id, rec_id, u_id, prog_statue, prop_memo, prog_create_time, prog_stop_flag
+  </sql>
+  
+  <select id="selectManageProgInfoByMapList" resultType="java.util.Map">
+  	select base.bu_name,prog_statue,rec.rec_name,DATE_FORMAT(prog_create_time,'%Y-%m-%d %h:%m:%s') prog_create_time,co.co_name from 
+  	t_prog_info prog,t_base_info base, t_recruit_info rec,t_company_info co 
+  	where co.u_id = prog.u_id and  prog.u_id = base.u_id and rec.rec_id=prog.rec_id
+  </select>
+  <select id="selectManageProgInfoByMapCount" resultType="java.lang.Long">
+  select count(1) from 
+  	t_prog_info prog,t_base_info base, t_recruit_info rec,t_company_info co 
+  	where co.u_id = prog.u_id and  prog.u_id = base.u_id and rec.rec_id=prog.rec_id
+  </select>
+  
+  
+  <select id="selectTProgInfoByMap" resultType="java.util.Map">
+  	select co.co_name,prog.prog_id progId,prog.prog_statue statue, DATE_FORMAT(prog.prog_create_time,'%Y-%m-%d %h:%m:%s') time,
+ base.bu_name buName,recInfo.rec_name recName from t_prog_info prog,t_base_info base,t_recruit_info recInfo,t_company_info co
+   where base.u_id=prog.u_id and recInfo.rec_id=prog.rec_id and co.co_id = recInfo.co_id and base.u_id='1013'
+    <if test="uId!=null">
+    		and base.u_id = #{uId,jdbcType=INTEGER}
+    </if>
+     <if test="jobType1!=null">
+    		and base.u_id = #{uId,jdbcType=INTEGER}
+    </if>
+     <if test="jobType2!=null">
+    		and base.u_id = #{uId,jdbcType=INTEGER}
+    </if>
+     <if test="statue!=null">
+    		and prog.prog_statue = #{statue,jdbcType=INTEGER}
+    </if>
+     <if test="date!=null">
+    		and prog.prog_create_time = #{date,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="searchProgInfoByMap" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_prog_info
+    <where>
+    	<if test="recId!=null">
+    		and rec_id = #{recId,jdbcType=INTEGER}
+    	</if>
+    	<if test="uId!=null">
+    		and u_id = #{uId,jdbcType=INTEGER}
+    	</if>
+    </where>
+  </select>
+  <delete id="deleteProgInfoByList"  >
+    delete from t_prog_info
+     set prog_stop_flag = '9'
+    <where>
+    	and prog_id in
+    		<foreach item="item" collection="list" open="(" separator="," close=")">
+    			#{item}
+    		</foreach>
+    </where>
+  </delete>
+  
+  <insert id="insertTProgInfo" parameterType="TProgInfo" >
+    insert into t_prog_info (prog_id, rec_id, u_id, 
+      prog_statue, prop_memo, prog_create_time, 
+      prog_stop_flag)
+    values (#{progId,jdbcType=INTEGER}, #{recId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, 
+      #{progStatue,jdbcType=VARCHAR}, #{propMemo,jdbcType=VARCHAR}, #{progCreateTime,jdbcType=TIMESTAMP}, 
+      #{progStopFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="TProgInfo" >
+    insert into t_prog_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="progId != null" >
+        prog_id,
+      </if>
+      <if test="recId != null" >
+        rec_id,
+      </if>
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="progStatue != null" >
+        prog_statue,
+      </if>
+      <if test="propMemo != null" >
+        prop_memo,
+      </if>
+      <if test="progCreateTime != null" >
+        prog_create_time,
+      </if>
+      <if test="progStopFlag != null" >
+        prog_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="progId != null" >
+        #{progId,jdbcType=INTEGER},
+      </if>
+      <if test="recId != null" >
+        #{recId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="progStatue != null" >
+        #{progStatue,jdbcType=VARCHAR},
+      </if>
+      <if test="propMemo != null" >
+        #{propMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="progCreateTime != null" >
+        #{progCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="progStopFlag != null" >
+        #{progStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TProgInfo" >
+    update t_prog_info
+    <set >
+      <if test="recId != null" >
+        rec_id = #{recId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="progStatue != null" >
+        prog_statue = #{progStatue,jdbcType=VARCHAR},
+      </if>
+      <if test="propMemo != null" >
+        prop_memo = #{propMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="progCreateTime != null" >
+        prog_create_time = #{progCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="progStopFlag != null" >
+        prog_stop_flag = #{progStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where prog_id = #{progId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TProgInfo" >
+    update t_prog_info
+    set rec_id = #{recId,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=INTEGER},
+      prog_statue = #{progStatue,jdbcType=VARCHAR},
+      prop_memo = #{propMemo,jdbcType=VARCHAR},
+      prog_create_time = #{progCreateTime,jdbcType=TIMESTAMP},
+      prog_stop_flag = #{progStopFlag,jdbcType=CHAR}
+    where prog_id = #{progId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -8,12 +8,37 @@
     <result column="mother_id" property="motherId" jdbcType="INTEGER" />
     <result column="job_level" property="jobLevel" jdbcType="CHAR" />
     <result column="job_memo" property="jobMemo" jdbcType="VARCHAR" />
-    <result column="job_create_time" property="jobCreateTime" jdbcType="DATE" />
+    <result column="job_create_time" property="jobCreateTime" jdbcType="VARCHAR" />
     <result column="job_stop_flag" property="jobStopFlag" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    job_id, job_type, job_name, mother_id, job_level, job_memo, job_create_time, job_stop_flag
+    job_id, job_type, job_name, mother_id, job_level, job_memo, DATE_FORMAT(job_create_time,'%Y-%m-%d %h:%m:%s') as job_create_time, job_stop_flag
   </sql>
+     <select id="selectTJobInfoList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_job_info
+    <where>
+    	<if test="jobId!=null">
+    		job_id = #{jobId,jdbcType=INTEGER}
+    	</if>
+    </where>
+     <if test="_parameter.containsKey('startRowNum') and _parameter.containsKey('endRowNum')">  
+       <if test="startRowNum!= null and endRowNum!= null">
+    		limit  #{startRowNum,jdbcType=INTEGER}, #{endRowNum,jdbcType=INTEGER}
+   		</if>
+    </if> 
+  </select>
+    <select id="selectTJobInfoCount" resultType="java.lang.Long">
+    select 
+    count(1)
+    from t_job_info
+    <where>
+    	<if test="jobId!=null">
+    		job_id = #{jobId,jdbcType=INTEGER}
+    	</if>
+    </where>
+  </select>
   <select id="searchJobNameById" resultType="java.util.Map">
   	select t1.job_name jobName1,t2.job_name jobName2 from t_job_info t1,t_job_info t2 
   		where t1.job_id=t2.mother_id and t2.job_id=#{jobId,jdbcType=VARCHAR}

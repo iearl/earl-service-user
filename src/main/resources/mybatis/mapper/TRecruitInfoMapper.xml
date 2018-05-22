@@ -29,22 +29,89 @@
     rec_exper, rec_type, rec_salary_bom, rec_salary_top, rec_addr, rec_degree, rec_pluses, 
     rec_request, rec_desc, rec_acc_email, rec_memo_info, DATE_FORMAT(rec_create_time,'%Y-%m-%d %h:%m:%s') AS rec_create_time, rec_stop_flag
   </sql>
+  
+  <select id="selectManageRecInfoByMapList" resultType="java.util.Map">
+  	select co.co_name,rec_name,rec_positon,rec_per_bom,rec_per_top,rec_exper,
+  	rec_type,rec_salary_bom,rec_salary_top from t_recruit_info rec,t_company_info co where co.co_id=rec.co_id
+  </select>
+  <select id="selectManageRecInfoByMapCount" resultType="java.lang.Long">
+  	select count(1) from t_recruit_info rec,t_company_info co where co.co_id=rec.co_id
+  </select>
+  
+   <select id="searchSevenDayTRecInfoCount" resultType="java.util.Map">
+  	select DATE_FORMAT(a.click_date,'%Y-%m-%d') date,ifnull(b.count,0) as count
+from (
+    SELECT curdate() as click_date
+    union all
+    SELECT date_sub(curdate(), interval 1 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 2 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 3 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 4 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 5 day) as click_date
+    union all
+    SELECT date_sub(curdate(), interval 6 day) as click_date
+) a left join (
+  select date(rec_create_time) as datetime, count(1) as count
+  from t_recruit_info 
+  group by date(rec_create_time)
+) b on a.click_date = b.datetime order by date desc
+  </select>
   <select id="selectTRecruitInfoByMap" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
     from t_recruit_info
-    where u_id = #{uId,jdbcType=INTEGER}
-        <if test="_parameter.containsKey('startRowNum') and _parameter.containsKey('endRowNum')">  
-        <if test="startRowNum!= null and endRowNum!= null">
-	    		limit  #{startRowNum,jdbcType=INTEGER}, #{endRowNum,jdbcType=INTEGER}
-    	</if>
+    where rec_stop_flag !=9
+     <if test="uId!= null">
+     	and u_id = #{uId,jdbcType=INTEGER}
+     </if>
+     <if test="recId!= null">
+     	and rec_id = #{recId,jdbcType=INTEGER}
+     </if>
+     <if test="jobId!=null and jobLevel!=null and jobType!=null ">
+     	<if test="jobLevel == 0">
+     		and job_code in( select job_id from t_job_info where job_type=#{jobType,jdbcType=INTEGER})
+     	</if>
+     	<if test="jobLevel==1">
+     		and job_code in( select job_id from t_job_info where  mother_id=#{jobId,jdbcType=INTEGER})
+     	</if>
+     	<if test="jobLevel==2">
+     		and job_code = #{jobId,jdbcType=INTEGER}
+     	</if>
+     </if>
+     <if test="jobName!=null">
+     	and rec_name like  #{jobName,jdbcType=INTEGER} 
+     </if>
+   <if test="_parameter.containsKey('startRowNum') and _parameter.containsKey('endRowNum')">  
+       <if test="startRowNum!= null and endRowNum!= null">
+    		limit  #{startRowNum,jdbcType=INTEGER}, #{endRowNum,jdbcType=INTEGER}
+   		</if>
     </if> 
   </select>
     <select id="selectTRecruitCountByMap" resultType="java.lang.Long"  >
     select count(1)
     	from t_recruit_info
-    where u_id = #{uId,jdbcType=INTEGER}
-     
+    	where rec_stop_flag !='9'
+     <if test="uId!= null">
+     	and u_id = #{uId,jdbcType=INTEGER}
+     </if>
+     <if test="jobId!=null and jobLevel!=null and jobType!=null ">
+     	<if test="jobLevel == 0">
+     		and job_code in( select job_id from t_job_info where job_type=#{jobType,jdbcType=INTEGER})
+     	</if>
+     	<if test="jobLevel==1">
+     		and job_code in( select job_id from t_job_info where  mother_id=#{jobId,jdbcType=INTEGER})
+     	</if>
+     	<if test="jobLevel==2">
+     		and job_code = #{jobId,jdbcType=INTEGER}
+     	</if>
+     </if>
+     <if test="jobName!=null">
+     	and rec_name like  #{jobName,jdbcType=INTEGER} 
+     </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_recruit_info
@@ -69,28 +136,80 @@
       )
   </insert>
 
-  <update id="updateByPrimaryKey" parameterType="TRecruitInfo" >
+  <update id="deleteTRecruitInfoByList" parameterType="java.util.List" >
     update t_recruit_info
-    set co_id = #{coId,jdbcType=INTEGER},
-      u_id = #{uId,jdbcType=INTEGER},
-      job_code = #{jobCode,jdbcType=VARCHAR},
-      rec_name = #{recName,jdbcType=VARCHAR},
-      rec_positon = #{recPositon,jdbcType=VARCHAR},
-      rec_per_bom = #{recPerBom,jdbcType=CHAR},
-      rec_per_top = #{recPerTop,jdbcType=CHAR},
-      rec_exper = #{recExper,jdbcType=CHAR},
-      rec_type = #{recType,jdbcType=CHAR},
-      rec_salary_bom = #{recSalaryBom,jdbcType=CHAR},
-      rec_salary_top = #{recSalaryTop,jdbcType=CHAR},
-      rec_addr = #{recAddr,jdbcType=VARCHAR},
-      rec_degree = #{recDegree,jdbcType=CHAR},
-      rec_pluses = #{recPluses,jdbcType=VARCHAR},
-      rec_request = #{recRequest,jdbcType=VARCHAR},
-      rec_desc = #{recDesc,jdbcType=VARCHAR},
-      rec_acc_email = #{recAccEmail,jdbcType=VARCHAR},
-      rec_memo_info = #{recMemoInfo,jdbcType=VARCHAR},
-      rec_create_time = #{recCreateTime,jdbcType=DATE},
-      rec_stop_flag = #{recStopFlag,jdbcType=VARCHAR}
+    set rec_stop_flag = '9'
+    <where>
+    	and rec_id in
+    		<foreach item="item" collection="list" open="(" separator="," close=")">
+    			#{item.recId}
+    		</foreach>
+    </where>
+  </update>
+    <update id="updateTRecruitInfoByRecId" parameterType="TRecruitInfo" >
+    update t_recruit_info
+    <set >
+      <if test="coId != null" >
+        co_id = #{coId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="jobCode != null" >
+        job_code = #{jobCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recName != null" >
+        rec_name = #{recName,jdbcType=VARCHAR},
+      </if>
+      <if test="recPositon != null" >
+        rec_positon = #{recPositon,jdbcType=VARCHAR},
+      </if>
+      <if test="recPerBom != null" >
+        rec_per_bom = #{recPerBom,jdbcType=CHAR},
+      </if>
+      <if test="recPerTop != null" >
+        rec_per_top = #{recPerTop,jdbcType=CHAR},
+      </if>
+      <if test="recExper != null" >
+        rec_exper = #{recExper,jdbcType=CHAR},
+      </if>
+      <if test="recType != null" >
+        rec_type = #{recType,jdbcType=CHAR},
+      </if>
+      <if test="recSalaryBom != null" >
+        rec_salary_bom = #{recSalaryBom,jdbcType=CHAR},
+      </if>
+      <if test="recSalaryTop != null" >
+        rec_salary_top = #{recSalaryTop,jdbcType=CHAR},
+      </if>
+      <if test="recAddr != null" >
+        rec_addr = #{recAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="recDegree != null" >
+        rec_degree = #{recDegree,jdbcType=CHAR},
+      </if>
+      <if test="recPluses != null" >
+        rec_pluses = #{recPluses,jdbcType=VARCHAR},
+      </if>
+      <if test="recRequest != null" >
+        rec_request = #{recRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="recDesc != null" >
+        rec_desc = #{recDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recAccEmail != null" >
+        rec_acc_email = #{recAccEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="recMemoInfo != null" >
+        rec_memo_info = #{recMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="recCreateTime != null" >
+        rec_create_time = #{recCreateTime,jdbcType=DATE},
+      </if>
+      <if test="recStopFlag != null" >
+        rec_stop_flag = #{recStopFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
     where rec_id = #{recId,jdbcType=INTEGER}
   </update>
 </mapper>

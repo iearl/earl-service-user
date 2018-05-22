@@ -13,7 +13,13 @@ import com.ants.facade.user.entity.TRecruitInfo;
  *    
  */
 public interface TRecruitInfoDao {
+	public List<TRecruitInfo> selectManageRecInfoByMapList(Map<String, Object> map) ;
+	public long selectManageAlyInfoByMapCount(Map<String, Object> map) ;
+	
+	public List<Map<String, String>> searchSevenDayCount(Map<String, String> map);
+	public long updateTRecruitInfoByRecId(TRecruitInfo record);
 	public long insert(TRecruitInfo record);
-	public List<TRecruitInfo> selectByMap(Map<String, Integer> map);
-	public long getTotal(Map<String, Integer> testMap);
+	public List<TRecruitInfo> selectByMap(Map<String, Object> map);
+	public long getTotal(Map<String, Object> testMap);
+	public long deleteTRecruitInfoByMap(List<Map<String,Object>> list);
 }

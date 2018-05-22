@@ -43,5 +43,14 @@
 	<dubbo:service interface="com.ants.facade.user.service.TRecruitInfoFacade" ref="tRecruitInfoFacade" timeout="1200000"/>
 	<!--工作经验信息服务接口 -->
 	<dubbo:service interface="com.ants.facade.user.service.TWorkShowFacade" ref="tWorkShowFacade" timeout="1200000"/>
+	<!-- 简历信息服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TAlyInfoFacade" ref="tAlyInfoFacade" timeout="1200000"/>
+	<!-- 学科信息服务接口 -->
+	<dubbo:service interface="com.ants.facade.user.service.TSubInfoFacade" ref="tSubInfoFacade" timeout="1200000"/>
+	<dubbo:service interface="com.ants.facade.user.service.TProgInfoFacade" ref="tProgInfoFacade" timeout="1200000"/>
+	<!-- 系统操作日志 -->
+	<dubbo:service interface="com.ants.facade.user.service.TArchivesLogFacade" ref="tArchivesLogFacade" timeout="1200000"/>
+	<!-- 反馈信息 -->
+	<dubbo:service interface="com.ants.facade.user.service.TFeedInfoFacade" ref="tFeedInfoFacade" timeout="1200000"/>
 
 </beans>  

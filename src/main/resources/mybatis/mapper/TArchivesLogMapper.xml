@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ants.dao.TArchivesLogMapper" >
+  <resultMap id="BaseResultMap" type="com.ants.facade.user.entity.TArchivesLog" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="oper_name" property="operName" jdbcType="VARCHAR" />
+    <result column="oper_type" property="operType" jdbcType="VARCHAR" />
+    <result column="oper_desc" property="operDesc" jdbcType="VARCHAR" />
+    <result column="log_memo_info" property="logMemoInfo" jdbcType="VARCHAR" />
+    <result column="log_create_time" property="logCreateTime" jdbcType="VARCHAR" />
+    <result column="log_stop_flag" property="logStopFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    log_id, oper_name, oper_type, oper_desc, log_memo_info, log_create_time, log_stop_flag
+  </sql>
+  <select id="selectTArchivesLogByMap" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_archives_log
+  </select>
+  <select id="selectTArchivesLogCountByMap" resultType="java.lang.Long">
+    select 
+    count(1)
+    from t_archives_log
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_archives_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertTArchivesLog" parameterType="TArchivesLog" >
+    insert into t_archives_log (log_id, oper_name, oper_type, 
+      oper_desc, log_memo_info, log_create_time, 
+      log_stop_flag)
+    values (#{logId,jdbcType=INTEGER}, #{operName,jdbcType=VARCHAR}, #{operType,jdbcType=VARCHAR}, 
+      #{operDesc,jdbcType=VARCHAR}, #{logMemoInfo,jdbcType=VARCHAR}, #{logCreateTime,jdbcType=VARCHAR}, 
+      #{logStopFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="TArchivesLog" >
+    insert into t_archives_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        log_id,
+      </if>
+      <if test="operName != null" >
+        oper_name,
+      </if>
+      <if test="operType != null" >
+        oper_type,
+      </if>
+      <if test="operDesc != null" >
+        oper_desc,
+      </if>
+      <if test="logMemoInfo != null" >
+        log_memo_info,
+      </if>
+      <if test="logCreateTime != null" >
+        log_create_time,
+      </if>
+      <if test="logStopFlag != null" >
+        log_stop_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="operName != null" >
+        #{operName,jdbcType=VARCHAR},
+      </if>
+      <if test="operType != null" >
+        #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="operDesc != null" >
+        #{operDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="logMemoInfo != null" >
+        #{logMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="logCreateTime != null" >
+        #{logCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="logStopFlag != null" >
+        #{logStopFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="TArchivesLog" >
+    update t_archives_log
+    <set >
+      <if test="operName != null" >
+        oper_name = #{operName,jdbcType=VARCHAR},
+      </if>
+      <if test="operType != null" >
+        oper_type = #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="operDesc != null" >
+        oper_desc = #{operDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="logMemoInfo != null" >
+        log_memo_info = #{logMemoInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="logCreateTime != null" >
+        log_create_time = #{logCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="logStopFlag != null" >
+        log_stop_flag = #{logStopFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="TArchivesLog" >
+    update t_archives_log
+    set oper_name = #{operName,jdbcType=VARCHAR},
+      oper_type = #{operType,jdbcType=VARCHAR},
+      oper_desc = #{operDesc,jdbcType=VARCHAR},
+      log_memo_info = #{logMemoInfo,jdbcType=VARCHAR},
+      log_create_time = #{logCreateTime,jdbcType=VARCHAR},
+      log_stop_flag = #{logStopFlag,jdbcType=CHAR}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>

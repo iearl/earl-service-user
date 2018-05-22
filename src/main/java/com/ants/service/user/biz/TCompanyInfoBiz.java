@@ -1,5 +1,8 @@
 package com.ants.service.user.biz;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,17 @@ public class TCompanyInfoBiz {
 	
 	@Autowired
 	private TCompanyInfoDao tCompanyInfoDao;
+	public List<TCompanyInfo> selectManageCoInfoByMapList(
+			Map<String, Object> map) {
+		return tCompanyInfoDao.selectManageCoInfoByMapList(map);
+	}
+
+	public long selectManageCoInfoByMapCount(Map<String, Object> map) {
+		return tCompanyInfoDao.selectManageCoInfoByMapCount(map);
+	}
+	public TCompanyInfo selectTComInfoByUMap(Map<String, Object> map){
+		return tCompanyInfoDao.selectTComInfoByUMap(map);
+	}
 	
 	public int updateByPrimaryKey(TCompanyInfo record){
 		return tCompanyInfoDao.updateByPrimaryKey(record);

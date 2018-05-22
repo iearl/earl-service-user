@@ -1,21 +1,4 @@
-/**  
-
-* <p>Title: TAreaInfoDaoImpl.java</p>  
-
-* <p>Description: </p>  
-
-* <p>Copyright: Copyright (c) 2018</p>  
-
-* <p>Company: www.baidudu.com</p>  
-
-* @author shenlan  
-
-* @date 2018年4月14日  
-
-* @version 1.0  
-
-*/  
-package com.ants.service.user.dao.impl;
+ package com.ants.service.user.dao.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +18,13 @@ import com.ants.service.user.dao.TAreaInfoDao;
  */
 @Repository("tAreaInfoDao")
 public class TAreaInfoDaoImpl extends BaseDaoImpl<TAreaInfo> implements TAreaInfoDao{
+	
+	public List<TAreaInfo> selectTAreaInfoList(Map<String, Object> map){
+		return super.getSqlSession().selectList("selectTAreaInfoList",map);
+	}
+	public long selectTAreaInfoCount(Map<String,Object> map){
+		return super.getSqlSession().selectOne("selectTAreaInfoCount",map);
+	}
 	
 	public List<Map<String,String>> searchAreaNameById(Map<String,String> mapCon){
 		return super.getSqlSession().selectList("searchAreaNameById", mapCon);

@@ -9,6 +9,8 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
+import com.ants.common.utils.DateUtil;
+
 /**
  * @ClassName: EmailCheckBiz
  * @Description: TODO(执行邮箱校验业务逻辑类)
@@ -33,7 +35,7 @@ public class EmailCheckBiz {
 		mailMessage1.setFrom(fromMail);
 		SimpleMailMessage message = new SimpleMailMessage(mailMessage1);
 		// 设置email内容,
-		message.setText("尊敬的用户：您于"+date+"申请注册51直聘，您本次的邮箱验证码是"+code+",验证码5分钟后失效");
+		message.setText("尊敬的用户：您于"+DateUtil.formatDate(date)+"发送验证码，您本次的邮箱验证码是"+code+",验证码5分钟后失效！！！");
 		try {
 			mailSender.send(message);
 			flag = true;
@@ -53,7 +55,7 @@ public class EmailCheckBiz {
 		mailMessage1.setFrom(fromMail);
 		SimpleMailMessage message = new SimpleMailMessage(mailMessage1);
 		// 设置email内容,
-		message.setText("尊敬的用户：您于"+date+"申请重置密码，您本次的邮箱验证码是"+code+",验证码1分钟后失效.");
+		message.setText("尊敬的用户：您于"+DateUtil.formatDate(date)+"发送验证码，您本次的邮箱验证码是"+code+",验证码5分钟后失效！！！");
 		try {
 			mailSender.send(message);
 			flag = true;
